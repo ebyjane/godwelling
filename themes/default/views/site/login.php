@@ -1,6 +1,6 @@
 <div class="login-container">
 	<div class="sidebar">
-		<div class="well-span"><ul class="login-wrap clearfix" id="login-icon"><li class="login"><a class="iframe" href="#">&nbsp;</a></li></ul>
+		<div class="well-span">
 			<h4><div style="font-weight:bold">Login to Your Account</div></h4><br/>
 			<?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 						'id'					=>	'login-form',
@@ -25,9 +25,9 @@
 						<?php echo $form->PasswordField($model, 'password', array('id'=>'password', 'placeholder'=>'Password')); ?>
 					</div>
 					<div class="login-form-footer">
-						<?php echo CHtml::link('register', Yii::app()->createUrl('/register'), array('class' => 'login-form-links')); ?>
+						<?php echo CHtml::link('Register', Yii::app()->createUrl('/register'), array('class' => 'login-form-links')); ?>
 						<span class="login-form-links"> | </span>
-						<?php echo CHtml::link('forgot', Yii::app()->createUrl('/forgot'), array('class' => 'login-form-links')); ?>
+						<?php echo CHtml::link('Forgot password', Yii::app()->createUrl('/forgot'), array('class' => 'login-form-links')); ?>
 					</div>
 					<div class="login-form-footer">
 						<?php $this->widget('bootstrap.widgets.TbButton', array(

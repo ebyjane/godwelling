@@ -562,8 +562,8 @@ input[type="text"], input[type="password"]{
 	font-size:14px;
 	border-radius:0 2px 2px 0;
 	border:1px solid #61b0c6;
-	padding:6px 14px;
-	margin-left:-4px;
+	padding:8px 14px;
+	margin: 0 0 10px;
 	transition:all 0.2s ease-in-out;	
 }
 .search-wrap .search-btn:hover{
@@ -945,6 +945,18 @@ input[type="text"], input[type="password"]{
 	border-radius: 3px;
     font-size: 16px;
     padding: 6px 25px;
+}
+.well-span{
+	border: 1px solid #CCCCCC;
+    padding: 20px;
+    width: 80%;
+	margin:50px auto;	
+}
+.well-span h4{
+	font-size:20px;	
+}
+.well-span input[type="text"], .well-span input[type="password"]{
+	width:60%;	
 }
 
 /*layout.css*/

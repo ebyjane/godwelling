@@ -49,12 +49,12 @@
 							<div class="password_strength_desc"></div>
 							<div class="clearfix"></div>
 						</div>
-						<div class="login-form-links">By clicking Register, you agree to godwelling <?php echo CHtml::link('terms', Yii::app()->createUrl('/site/terms'), array('class' => 'login-form-links','style' => 'text-decoration:underline')); ?> and <?php echo CHtml::link('privacy', Yii::app()->createUrl('/site/privacy'), array('class' => 'login-form-links','style' => 'text-decoration:underline')); ?><br/><br/></div>
+						<div class="login-form-links">By clicking Register, you agree to godwelling <?php echo CHtml::link('Terms and Conditions', Yii::app()->createUrl('/site/terms'), array('class' => 'login-form-links','style' => 'text-decoration:underline')); ?> <br/><br/></div>
 					</div>
 					<div class="login-form-footer">
-						<?php echo CHtml::link('login', Yii::app()->createUrl('/login'), array('class' => 'login-form-links')); ?>
+						<?php echo CHtml::link('Login', Yii::app()->createUrl('/login'), array('class' => 'login-form-links')); ?>
 						<span class="login-form-links"> | </span>
-						<?php echo CHtml::link('forgot', Yii::app()->createUrl('/forgot'), array('class' => 'login-form-links')); ?><br/>
+						<?php echo CHtml::link('Forgot password', Yii::app()->createUrl('/forgot'), array('class' => 'login-form-links')); ?><br/>
 						<?php $this->widget('bootstrap.widgets.TbButton', array(
 								'buttonType' => 'submit',
 	    	                    'type' => 'success',
