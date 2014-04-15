@@ -948,15 +948,29 @@ input[type="text"], input[type="password"]{
 }
 .well-span{
 	border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #CCCCCC inset;
+    margin: 50px auto;
     padding: 20px;
-    width: 80%;
-	margin:50px auto;	
+    width: 100%;
 }
 .well-span h4{
-	font-size:20px;	
+	border-bottom: 1px solid #333333;
+    font-size: 20px;
+    padding-bottom: 5px;
 }
 .well-span input[type="text"], .well-span input[type="password"]{
-	width:60%;	
+	width:95%;	
+}
+.login-container{
+	margin-left: 50%;
+    min-height: 300px;
+}
+.login-form-links{
+	font-sizze:10px!important;	
+}
+.login-form-links a{
+	font-sizze:10px!important;	
 }
 
 /*layout.css*/
