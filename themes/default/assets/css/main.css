@@ -580,6 +580,17 @@ input[type="text"], input[type="password"]{
     padding: 5px 25px;
     text-shadow: 0 1px 0 #000000;	
 }
+.orange-wrap1{
+	margin:10px 0;
+	position:relative;
+}
+.orange-wrap1 .orange-btn{
+	border-radius: 2px;
+    color: #FFFFFF;
+    font-size: 15px;
+    padding: 5px 25px;
+    text-shadow: 0 1px 0 #000000;	
+}
 .box-wrap{
 	margin-bottom:15px;
 	font-size:14px;
@@ -938,7 +949,7 @@ input[type="text"], input[type="password"]{
 	width:25%;
 	padding-left:21px;
 }
-.new-query-popup .uploads a.video{
+.new-query-popup .uploads buton.video{
 	background-position:0 -21px;	
 }
 .new-query-popup .green-btn{
@@ -1192,3 +1203,156 @@ input[type="text"], input[type="password"]{
 	}
 
    }
+   
+.register-mail-wrap .register-mail{
+	box-shadow:0 0 5px #888888;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+.register-mail-wrap h1, .profile-page h1{
+	font-size:18px;
+	border-bottom:1px solid #555;
+	color:#555;
+	font-weight:bold;
+	padding:0 15px 5px 0;
+	margin:15px;	
+}
+.register-mail-wrap ul{
+	margin:25px 15px;
+	border-right:1px solid #ccc;
+	width:56%;
+	float:left;	
+}
+.photo-upload-wrap{
+	float: right;
+    margin-top: 7%;
+    /*text-align: center;*/
+    width: 40%;	
+}
+.photo-upload-wrap img {
+    height: 50px;
+    width: 50px;
+}
+.photo-upload-wrap .gray-btn{
+	display:block;
+	margin:10px auto;	
+}
+.register-mail-wrap ul li{
+	margin-bottom:15px;
+}
+.register-mail-wrap ul li label{
+	float:left;
+	display:block;
+	width:30%;
+	text-align:right;
+	margin-right:15px;
+	font-size:14px;	
+}
+.register-mail-wrap ul li input[type="text"]{
+	width:45%;
+	padding:6px;	
+}
+.register-mail-wrap ul li select{
+	width:47%;	
+}
+.register-mail-wrap .chosen-container .chosen-results{
+	width:98%;
+	border:none;	
+}
+.green-btn.full{
+	width:100%;
+	text-align:center;
+	color:#fff;
+	font-size:16px;
+	padding:7px 0;	
+}
+
+.profile-page .register-mail{
+	box-shadow:0 0 5px #888888;
+	margin-top:20px;
+	margin-bottom:20px;
+	font-size:14px;
+}
+.profile-page .profile-pic{
+	float:left;
+	margin-right:20px;	
+}
+
+.profile-page .register-container{
+	margin:15px;	
+}
+.profile-page ul li{
+	margin-bottom:15px;
+	overflow:hidden;	
+}
+.profile-page .photo-wrap li label{
+	width:35%;
+	float:left;
+	display:block;	
+}
+.profile-page .profile-right{
+	border-top: 1px solid #CCCCCC;
+    margin-top: 20px;
+    padding-top: 20px;	
+}
+.profile-page .profile-right label{
+	float:left;
+	display:block;
+	width:28%;	
+}
+.profile-page .profile-right ul{
+	float:left;
+	width:42%;
+	border-right:1px solid #ccc;	
+}
+.profile-page .profile-right .about{
+	float:right;
+	width:53%;
+	padding-right:10px;
+}
+.profile-page .profile-right .about label{
+	display:block;
+	width:100%;
+	font-weight:bold;	
+}
+.profile-page .profile-right .about p{
+	font-size:12px;
+	line-height:20px;	
+}
+.profile-page .photo-wrap li .display-data{
+	float: left;
+    font-weight: bold;
+    margin-right: 20px;
+    text-align: right;
+    width: 7%;	
+}
+.profile-page .profile-right .display-data{
+	font-weight:bold;	
+}
+.register-container textarea{
+	width:45%;
+	padding:6px;
+	box-shadow:0 0 4px #DDDDDD inset;
+	border:1px solid #ccc;
+	height:100px;	
+}
+.comment-box textarea{
+	width:98%;
+	padding:5px;
+	border:1px solid #ccc;
+	border-radius:4px;	
+}
+.comment-box .green-btn{
+	border-radius: 2px;
+    font-size: 14px;
+    margin-top: 5px;
+    padding: 4px 15px;
+}
+.content-wrap .comment-wrap.question-full{
+    margin-left: 0;
+	margin-bottom:20px;
+	padding:5px;
+}
+.content-wrap .comment-wrap.question-full:nth-child(2n+1){
+	background:#F8F8F8;	
+}   

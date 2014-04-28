@@ -10,6 +10,8 @@
  * @property string $firstName
  * @property string $lastName
  * @property string $displayName
+ * @property string $expert
+ * @property string $profession 
  * @property string $about
  * @property integer $user_role
  * @property integer $status
@@ -59,14 +61,14 @@ class Users extends CiiModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('email, password, displayName, user_role, status', 'required'),
+			array('email, password, displayName, expert, profession, user_role, status', 'required'),
 			array('email', 'email'),
 			array('user_role, status', 'numerical', 'integerOnly'=>true),
-			array('email, firstName, lastName, displayName', 'length', 'max'=>255),
+			array('email, firstName, lastName, displayName, expert, profession', 'length', 'max'=>255),
 			array('password', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, email, password, firstName, lastName, displayName, about, user_role, status, created, updated', 'safe', 'on'=>'search'),
+			array('id, email, password, firstName, lastName, displayName, expert, profession, about, user_role, status, created, updated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,6 +101,8 @@ class Users extends CiiModel
 			'lastName' => 'Last Name',
 			'displayName' => 'Display Name',
 			'about'		=> 'About',
+			'expert'    => 'Expert',
+			'profession'=> 'Profession',
 			'user_role' => 'User Role',
 			'status' => 'Status',
 			'created' => 'Created',
@@ -132,6 +136,8 @@ class Users extends CiiModel
 		$criteria->compare('lastName',$this->lastName,true);
 		$criteria->compare('displayName',$this->displayName,true);
 		$criteria->compare('about',$this->about,true);
+		$criteria->compare('expert',$this->expert,true);
+		$criteria->compare('profession',$this->profession,true);
 		$criteria->compare('user_role',$this->user_role);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('created',$this->created,true);
@@ -205,7 +211,7 @@ class Users extends CiiModel
 	
 	public function dwelingImage($size=20, $default=NULL)
 	{
-		return "http://localhost/dwel1/uploads/images.jpg?s=".$size;
+		return "http://localhost/godwelling/uploads/images.jpg?s=".$size;
 	}	
 	
 	

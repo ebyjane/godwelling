@@ -11,9 +11,9 @@
 							//echo $userDetails->displayName;
 							//exit();
 							if(count($image_data)>0){
-								echo CHtml::link(CHtml::image("/dwel1/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/dwel1/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
+								echo CHtml::link(CHtml::image("/godwelling/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/godwelling/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
 							}else{
-								echo CHtml::link(CHtml::image("/dwel1/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/dwel1/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
+								echo CHtml::link(CHtml::image("/godwelling/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/godwelling/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
 							}	
 	
 	?>
@@ -86,7 +86,7 @@
                     <div id="close-<?php echo $comment->id; ?>"></div>
                     <div style="clearfix"></div>
                 </div>
-                <div id="b-<?php echo $comment->id; ?>" style="color:#999">Comment on this post</div> 
+                <div id="b-<?php echo $comment->id; ?>" style="color:#999;border: 1px solid #DDDDDD;">Comment on this post</div> 
             </div>
 			<?php $this->widget('bootstrap.widgets.TbButton', array(
                 'type' => 'success',
@@ -97,8 +97,9 @@
                     'class' => 'sharebox-submit',
             ))); ?>
 		<?php $this->endWidget(); ?>
+
 	<div class="clearfix"></div>
-</div>
+
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -134,7 +135,7 @@
 	        if ($("#textbox-<?php echo $comment->id; ?>").text() == "")
 	            return;
 
-	        $.post("/dwel1/comment/comment", 
+	        $.post("/godwelling/comment/comment", 
 	        	{ 
 	        		"Comments" : 
 	        		{ 
@@ -165,7 +166,7 @@ function testClick(idVal){
 	var idData = id[2];
 	//alert(idData);
 
-	$.post("/dwel1/comment/like/id/"+idData, function(data, textStatus, jqXHR) {
+	$.post("/godwelling/comment/like/id/"+idData, function(data, textStatus, jqXHR) {
 	//alert(data.status);
 		if (data.status == undefined)
 			window.location = "<?php echo $this->createUrl('/login'); ?>"
@@ -201,7 +202,7 @@ function dislike(idVal){
 	var idData = id[2];
 	//alert(idData);
 
-	$.post("/dwel1/comment/dislike/id/"+idData, function(data, textStatus, jqXHR) {
+	$.post("/godwelling/comment/dislike/id/"+idData, function(data, textStatus, jqXHR) {
 	//alert(data.status);
 		if (data.status == undefined)
 			window.location = "<?php echo $this->createUrl('/login'); ?>"
@@ -227,3 +228,13 @@ function dislike(idVal){
 	return false;					
 }	
 </script>
+<style type="text/css">
+main #sharebox #b, [id*="sharebox-"] [id*="b-"] {
+    cursor: text;
+    min-height: 15px;
+    padding: 10px;
+}
+main #sharebox, main [id*="sharebox-"] {
+    border: 1px solid #DDDDDD;
+}
+</style>

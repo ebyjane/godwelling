@@ -89,7 +89,7 @@ class ProfileController extends CiiController
 			if ($model === NULL)
 				throw new CHttpException(404, 'Oops! That user doesn\'t exist on our network!');
 			else
-				$this->redirect('/dwel1/profile/' . $model->id . '/' . preg_replace('/[^\da-z]/i', '', $model->displayName));
+				$this->redirect('/godwelling/profile/' . $model->id . '/' . preg_replace('/[^\da-z]/i', '', $model->displayName));
 		}
 
 		$model = Users::model()->findByPk($id);
@@ -108,7 +108,7 @@ class ProfileController extends CiiController
 		$contentCount =  Content::model()->count($postsCriteria);
 		$this->render('index', array('model' => $model, 'contentCount' => $contentCount));
 	}
-
+	
 	/**
 	 * Provides functionality for a user to edit their profile
 	 */
@@ -227,7 +227,7 @@ if (Yii::app()->request->isPostRequest)
 					$meta = new ContentMetadata;
 				$meta->content_id = $id;
 				$meta->key = $result['filename'];
-				$meta->value = '/dwel1/uploads' . $path . $result['filename'];
+				$meta->value = '/godwelling/uploads' . $path . $result['filename'];
 				$meta->save();
 				$result['filepath'] = '/uploads/' . $result['filename'];
 			}

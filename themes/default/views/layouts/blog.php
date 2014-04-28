@@ -34,7 +34,21 @@
 		}
 		}
 		?>
-	</div>
+		
+	                <div class="grid-4 sidebar">
+                	
+                   
+                    
+                    <div class="box advertisement">
+                    	<h3>Advertisements</h3>
+                        <img src="images/add1.jpg" />
+                        <img src="images/add2.jpg" />
+                    </div>
+                </div>
+                <!-- sidebar ends -->
+            </div>
+        </div>	
+
 	<div class="span4 sidebar hidden-phone">
 		<div class="well">
 			<h4>Search</h4>
@@ -74,4 +88,8 @@
 				</div>
 		<?php endif; ?>
 	</div>
+	</div>
 <?php $this->endContent(); ?>
+
+
+

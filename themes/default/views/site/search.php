@@ -16,7 +16,7 @@
     <?php foreach ($data as $k=>$v): ?>
         <?php $this->renderPartial('//content/_post', array('content' => $v)); ?>
     <?php endforeach; ?>
-</div>
+</div></div>
 
 <?php if ($itemCount != 0): ?>
 	<?php $this->widget('ext.yiinfinite-scroll.YiinfiniteScroller', array(

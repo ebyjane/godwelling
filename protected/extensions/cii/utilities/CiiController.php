@@ -101,7 +101,7 @@ class CiiController extends CController
         $smtpHost    = Cii::getConfig('SMTPHost',    "smtp.gmail.com");
         $smtpPort    = Cii::getConfig('SMTPPort',    "465");
         $smtpUser    = Cii::getConfig('SMTPUser',    "eby.jane@gmail.com");
-        $smtpPass    = Cii::getConfig('SMTPPass',    "Yahoo@2012");
+        $smtpPass    = Cii::getConfig('SMTPPass',    "Dan@2014");
 		$mail->SMTPDebug = 1;		
 
         $notifyUser  = new stdClass;

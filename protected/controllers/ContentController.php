@@ -333,7 +333,7 @@ class ContentController extends CiiController
 			{
 				$_SESSION['password'][$id]['password'] = $encrypted;
 				$_SESSION['password'][$id]['tries'] = 0;
-				$this->redirect(Yii::app()->createUrl("/dwel1/".$content->attributes['slug']));
+				$this->redirect(Yii::app()->createUrl("/godwelling/".$content->attributes['slug']));
 			}
 			else
 			{
@@ -403,12 +403,122 @@ class ContentController extends CiiController
 		$this->renderPartial('application.views.site/rss', array('data'=>$data));
 		return;
 	}
+	
+	public function actionStarRatingAjax() {
+		$ratingAjax=isset($_POST['star_rating']) ? $_POST['star_rating'] : 0;
+		//echo "You are voting $ratingAjax through AJAX!";
+		echo "$ratingAjax";
+	}	
+	
+	public function actionUpload2(){
+
+		$photo = $_FILES['photo2']['name'];
+		$ext = strtolower(substr($photo,strpos($photo,'.')+1));
+		$size = $_FILES['photo2']['size'];
+		$maxsize = 20000000;
+		$type = $_FILES['photo2']['type'];
+		$tmp = $_FILES['photo2']['tmp_name'];
+
+		$move = "uploads/".$photo;
+
+		if(isset($photo) && !empty($photo)){
+		if($size <= $maxsize){
+		if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png'){
+		move_uploaded_file($tmp,$move);
+		}}}
+	}		
+	
+	public function actionUpload1(){
+
+		$photo = $_FILES['photo1']['name'];
+		$ext = strtolower(substr($photo,strpos($photo,'.')+1));
+		$size = $_FILES['photo1']['size'];
+		$maxsize = 20000000;
+		$type = $_FILES['photo1']['type'];
+		$tmp = $_FILES['photo1']['tmp_name'];
+
+		$move = "uploads/".$photo;
+
+		if(isset($photo) && !empty($photo)){
+		if($size <= $maxsize){
+		if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png'){
+		move_uploaded_file($tmp,$move);
+		}}}
+	}	
+		
+	public function actionUpload(){
+
+		$photo = $_FILES['photo']['name'];
+		$ext = strtolower(substr($photo,strpos($photo,'.')+1));
+		$size = $_FILES['photo']['size'];
+		$maxsize = 20000000;
+		$type = $_FILES['photo']['type'];
+		$tmp = $_FILES['photo']['tmp_name'];
+
+		$move = "uploads/".$photo;
+
+		if(isset($photo) && !empty($photo)){
+		if($size <= $maxsize){
+		if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png'){
+		move_uploaded_file($tmp,$move);
+		}}}
+
+
+		
+		
+	   /* if(isset($_FILES['photo'])) {
+			$rnd = rand(0123456789, 9876543210);    // generate random number between 0123456789-9876543210
+			$timeStamp = time();    // generate current timestamp
+			$uploadedFile = CUploadedFile::getInstance($gallery, 'photo');
+			if ($uploadedFile != null) {
+			$fileName = "{$rnd}-{$timeStamp}-{$uploadedFile}";  // random number + Timestamp + file name
+			$gallery -> photo = $fileName;
+		}
+			$valid_format = "jpg,png,jpeg,gif";     // Allow the above extensions only.
+		if ($valid_format) {
+			if (!empty($uploadedFile)) {
+				$uploadedFile -> saveAs(Yii::app() -> basePath . '/uploads/' . $fileName); // save images in given destination folder
+					}
+			}
+			echo $fileName;
+			echo "image uploaded";
+			}*/
+	}	
+	
+public function actionUploadPost() {
+//print_r($_FILES);
+    $gallery = new content;
+    if(isset($_FILES['photo'])) {
+        $rnd = rand(0123456789, 9876543210);    // generate random number between 0123456789-9876543210
+		$timeStamp = time();    // generate current timestamp
+        $uploadedFile = CUploadedFile::getInstance($gallery, 'photo');
+        if ($uploadedFile != null) {
+        $fileName = "{$rnd}-{$timeStamp}-{$uploadedFile}";  // random number + Timestamp + file name
+        $gallery -> photo = $fileName;
+    }
+        $valid_format = "jpg,png,jpeg,gif";     // Allow the above extensions only.
+    if ($valid_format) {
+        if (!empty($uploadedFile)) {
+            $uploadedFile -> saveAs(Yii::app() -> basePath . '/images/' . $fileName); // save images in given destination folder
+                }
+        }
+		echo "image uploaded";
+        //$model -> save(FALSE);
+
+		}
+}
+	
 public function actionContent()
 	{
-
-		if (Yii::app()->request->isAjaxRequest && isset($_POST))
+	if (Yii::app()->request->isAjaxRequest && isset($_POST))
 		{
-
+		
+		if($_POST['Content']['identity'] == "true"){
+			$identity = "1";
+		}else{
+			$identity = "0";
+		}
+			
 			$content = new Content();
 			$content->attributes = array(
 				'vid'	=>	Yii::app()->user->id,
@@ -420,15 +530,25 @@ public function actionContent()
 				'commentable'	=>	1,				
 				'parent_id'	=>	1,
 				'category_id'	=>	$_POST['Content']['categories'],
+				'country_id'	=>	$_POST['Content']['countries'],
 				'type_id'	=>	2,
 				'comment_count'	=>	0,
 				'like_count'	=>	0,
+				'hidentityName'	=>	$_POST['Content']['expert'],
+				'ask'	=>	$_POST['Content']['ask'],
+				'expert'	=>	$_POST['Content']['expert'],				
+				'photo'	=>	$_POST['Content']['photo'],				
+				'hideidentity'	=>	$_POST['Content']['identity'],
+				'categoryName'	=>	$_POST['Content']['cat'],
+				'video'	=>	$_POST['Content']['video'],
 			);
 			
 			
 			
 			if ($content->save())
 			{
+			
+				//$content->photo->saveAs(Yii::app()->basePath.'/../images/'.$content->photo);
 				/*$content = Content::model()->findByPk($_POST['Comments']['content_id']);
 				$content->comment_count++;
 				$content->save();*/

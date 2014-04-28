@@ -1,5 +1,142 @@
 <?php $content = &$data; ?>
 <?php $meta = Content::model()->parseMeta($content->metadata); ?>
+    	<div class="container-12">
+        	<div class="group">
+            	<div class="grid-8 content-part">
+                	<div class="content-wrap">
+              
+                        
+                        <div class="box-wrap queries-wrap">
+                        	<div class="image-wrap left">
+                        	<?php //echo $content->author->id; 
+							$model  = Users::model();
+							$id = $content->author->id;
+							$key = "blog-image";
+							$image_data = UserMetadata::model()->findByAttributes(array('user_id' => $id, 'key' => $key));
+							$userDetails = Users::model()->findByAttributes(array('id' => $id));
+							//echo count($image_data);
+							if(count($image_data)>0){
+								echo CHtml::link(CHtml::image("/godwelling/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
+							}else{
+								echo CHtml::link(CHtml::image("/godwelling/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
+							}	
+	
+	?>
+							<span class="name"><?php echo CHtml::link(CHtml::encode($content->author->displayName), $this->createUrl("/profile/{$content->author->id}/")); ?></span>
+                            </div>
+                            
+                            <div class="question-wrap">
+							<h3>
+								<a href="<?php echo $this->createUrl('/' . $content->slug); ?>" rel="bookmark">	
+								<?php $md = new CMarkdownParser; echo strip_tags($md->safeTransform($content->extract), '<h1><h2><h3><h4><h5><6h><p><b><strong><i>'); ?>
+								</a>
+							</h3>
+                                
+                               <div class="date-time-wrap">
+                            		<?php echo $content->getCreatedFormatted() ?> | <?php echo CHtml::link(CHtml::encode($content->category->name), Yii::app()->createUrl($content->category->slug)); ?> | <?php echo $content->getCommentCount(); ?> comments</a>
+                            	</div>
+                            </div>
+                            
+							<?php 
+							if(($content->video!="")||($content->photo!="")){?>
+
+								<?php 
+								if($content->video!=""){
+								
+								$videoURL = explode("=",$content->video);	
+															
+								?>
+								
+								<iframe class="video-holder" width="222" height="136" src="//www.youtube.com/embed/<?php echo $videoURL[1]; ?>?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+								<?php } 
+								if($content->photo!=""){
+								$imageUrl = $content->photo;
+								
+
+								
+								?>
+						
+								
+								<img style="width:222px;height:136px" src="uploads/<?php echo $imageUrl; ?>" class="video-holder" />
+								<?php /*echo CHtml::image("uploads/".$imageUrl, NULL, array('class'=> 'thumb', 'href' => "uploads/".$imageUrl, 'title' => "uploads/".$imageUrl));*/ ?>
+						
+								<?php } ?>
+							
+							<?php							
+							}else{
+							//echo $content->video; 
+							?>
+							
+                            <img src="./themes/default/assets/images/sample-video.jpg" class="video-holder" />
+                            
+							<?php
+							}
+							?>
+                        
+                        
+                        </div>
+						
+						<div class="comments">
+	<?php $count = 0;?>
+	<?php echo CHtml::link(NULL, NULL, array('name'=>'comments')); ?>
+	<div class="post">
+		<div class="post-inner">
+			<div class="post-header post-header-comments">
+				<h3 class="comment-count pull-left left-header"><?php echo Yii::t('comments', 'n==NaN#1 Comment|n==0#No Comments|n==1#{n} Comment|n>1#{n} Comments', $comments); ?></h3>
+				
+				<div class="likes-container pull-right">
+					<div class="likes <?php echo Yii::app()->user->isGuest ?: (Users::model()->findByPk(Yii::app()->user->id)->likesPost($content->id) ? 'liked' : NULL); ?>">     
+					    <!--<a href="#" id="upvote" title="Like this post and discussion">
+					    	<span class="icon-thumbs-up icon-red"></span>
+					        <span class="counter">
+					            <span id="like-count"><?php echo $content->like_count; ?></span>
+					        </span>      
+					    </a>-->
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<?php if (!Yii::app()->user->isGuest): ?>
+				<?php if ($data->commentable): ?>
+    				<a id="comment-box"></a>
+    	                <div id="sharebox" class="comment-box">
+    	                    <div id="a">
+    	                        <div id="textbox" contenteditable="true" style="height:50px;border:1px solid #cccccc;border-radius: 4px;font-size:13px"></div>
+								
+    	                        <div id="close"></div>
+    	                        <div style="clear:both"></div>
+    	                    </div>
+    	                    <div id="b" style="color:#999999;margin-top:-55px;font-size:12px;margin-left:5px">Comment on this query</div> 
+    	                </div>
+    	                <?php $this->widget('bootstrap.widgets.TbButton', array(
+    	                    'type' => 'success',
+    	                    'label' => 'Submit',
+    	                    'url' => '#',
+    	                    'htmlOptions' => array(
+    	                        'id' => 'submit-comment',
+    	                        'class' => 'sharebox-submit',
+    	                        'style' => 'display:none; margin-top: 55px;'
+    	                    )
+    	                )); ?>
+    	        <?php endif; ?>
+            <?php else: ?>
+				<div class="alert">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>Hey there!</strong> Before leaving a comment, you must <?php echo CHtml::link('login', $this->createUrl('/login')); ?> or <?php echo CHtml::link('signup', $this->createUrl('/register')); ?>
+				</div>
+        	<?php endif; ?>
+            <div id="comment-container" style="display:none; margin-top: -1px;"></div>
+            <div class="comment"></div>
+            <div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+                    
+                </div>
+                <!-- content part ends -->
+
+
+
 
 <div class="content" data-attr-id="<?php echo $content->id; ?>">
 <div id="content-container"></div>
@@ -18,9 +155,9 @@
 							$userDetails = Users::model()->findByAttributes(array('id' => $id));
 							//echo count($image_data);
 							if(count($image_data)>0){
-								echo CHtml::link(CHtml::image("/dwel1/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/dwel1/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
+								echo CHtml::link(CHtml::image("/godwelling/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
 							}else{
-								echo CHtml::link(CHtml::image("/dwel1/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/dwel1/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
+								echo CHtml::link(CHtml::image("/godwelling/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
 							}	
 	
 	?>
@@ -64,26 +201,7 @@
 				?>
                 <div class="clearfix"></div>
                 
-                <div class="blog-meta inline">
-				<span class="date"><?php echo $content->getCreatedFormatted() ?></span>
-				<span class="separator">⋅</span>
-				<span class="blog-author minor-meta"><strong>by </strong>
-					<span>
-						<?php echo CHtml::link(CHtml::encode($content->author->displayName), $this->createUrl("/profile/{$content->author->id}/")); ?>
-					</span>
-					<span class="separator">⋅</span> 
-				</span> 
-				<span class="minor-meta-wrap">
-					<span class="blog-categories minor-meta"><strong>in </strong>
-					<span>
-						<?php echo CHtml::link(CHtml::encode($content->category->name), Yii::app()->createUrl($content->category->slug)); ?>
-					</span> 
-					<span class="separator">⋅</span> 
-				</span> 					
-				<span class="comment-container">
-					<?php echo $content->getCommentCount(); ?> Comments</a>					
-				</span>
-			</div>
+
             
 		</div>
 	    <div style="clear:both;"><br /></div>
@@ -115,11 +233,12 @@
     				<a id="comment-box"></a>
     	                <div id="sharebox" class="comment-box">
     	                    <div id="a">
-    	                        <div id="textbox" contenteditable="true"></div>
+    	                        <div id="textbox" contenteditable="true" style="height:50px;border:1px solid #cccccc;border-radius: 4px;font-size:13px"></div>
+								
     	                        <div id="close"></div>
     	                        <div style="clear:both"></div>
     	                    </div>
-    	                    <div id="b" style="color:#999">Comment on this post</div> 
+    	                    <div id="b" style="color:#999999;margin-top:-55px;font-size:12px;margin-left:5px">Comment on this query</div> 
     	                </div>
     	                <?php $this->widget('bootstrap.widgets.TbButton', array(
     	                    'type' => 'success',
@@ -128,7 +247,7 @@
     	                    'htmlOptions' => array(
     	                        'id' => 'submit-comment',
     	                        'class' => 'sharebox-submit',
-    	                        'style' => 'display:none; margin-bottom: 5px;'
+    	                        'style' => 'display:none; margin-top: 55px;'
     	                    )
     	                )); ?>
     	        <?php endif; ?>
@@ -154,6 +273,21 @@ main .likes-container--topfix {
     right: 0;
     top: -27px;
 }
+main #sharebox #b, [id*="sharebox-"] [id*="b-"] {
+    cursor: text;
+    min-height: 15px;
+    padding: 10px;
+}
+main #sharebox, main [id*="sharebox-"] {
+    border: 1px solid #DDDDDD;
+}
+#textbox{
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    padding: 5px;
+    width: 98%;
+}	
+
 </style>
 
 
@@ -183,7 +317,7 @@ main .likes-container--topfix {
         e.preventDefault();
         if ($("#textbox").text() == "")
             return;
-        $.post("/dwel1/comment/comment", 
+        $.post("/godwelling/comment/comment", 
         	{ 
         		"Comments" : 
         		{ 

@@ -22,3 +22,13 @@ $(function(){
 		$('.new-query-popup').hide();	
 	});
 });
+
+$(function(){
+	$('.new-query-popup').hide();
+	$('.orange-wrap1 .orange-btn').click(function(){
+		$('.alert').toggle(500);
+	});
+		$('.close').click(function(){
+		$('.alert').hide();	
+	});
+});

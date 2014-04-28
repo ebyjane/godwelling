@@ -298,7 +298,7 @@ class SiteController extends CiiController
 							Yii::app()->user->setFlash('reset', 'Your password has been reset, and you may now login with your new password');
 							
 							// Redirect to the login page
-							$this->redirect('/dwel1/login');
+							$this->redirect('/godwelling/login');
 						}
 	
 						Yii::app()->user->setFlash('reset-error', 'The password you provided must be at least 8 characters.');
@@ -434,7 +434,7 @@ class SiteController extends CiiController
 						// Send the registration email
 						$this->sendEmail($user, 'Activate Your Account', '//email/register', array('user' => $user, 'hash' => $hash), true, true);
 					
-						$this->redirect('/dwel1/register-success');
+						$this->redirect('/godwelling/register-success');
 						return;
 					}
 				}
@@ -470,6 +470,13 @@ class SiteController extends CiiController
 		$this->setPageTitle(Yii::app()->name . ' | Events');
 		$this->layout = '//layouts/main';
 		$this->render('events');
+	}	
+	
+	public function actionProfile()
+	{
+		$this->setPageTitle(Yii::app()->name . ' | Profile');
+		$this->layout = '//layouts/main';
+		$this->render('profile');
 	}	
 	
 

@@ -11,7 +11,7 @@
 
 return 
 	array(
-		"base_url" => 'http://'. $_SERVER['SERVER_NAME'] . '/dwel1/hybridauth', 
+		"base_url" => 'http://'. $_SERVER['SERVER_NAME'] . '/godwelling/hybridauth', 
 
 		"providers" => array ( 
 			// openid providers

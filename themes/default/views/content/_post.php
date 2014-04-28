@@ -1,6 +1,9 @@
 <?php 
 //echo "content value = ".$content->content;
-$meta = Content::model()->parseMeta($content->metadata); ?>
+$meta = Content::model()->parseMeta($content->metadata); 
+Yii::import('ext.jqPrettyPhoto');
+
+?>
 
 <div id="content-container"></div>
 
@@ -9,12 +12,10 @@ $meta = Content::model()->parseMeta($content->metadata); ?>
 
 		
 	<?php endif; ?>
-
 	
 
-	<div class="post-inner" >
-	<div style="float:left;width:50px;position:relative">
-	
+                        <div class="box-wrap queries-wrap">
+                        	<div class="image-wrap left">
 	<?php //echo $content->author->id; 
 							$model  = Users::model();
 							$id = $content->author->id;
@@ -23,50 +24,127 @@ $meta = Content::model()->parseMeta($content->metadata); ?>
 							$userDetails = Users::model()->findByAttributes(array('id' => $id));
 							//echo count($image_data);
 							if(count($image_data)>0){
-								echo CHtml::link(CHtml::image("/dwel1/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/dwel1/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
+								echo CHtml::link(CHtml::image("/godwelling/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
 							}else{
-								echo CHtml::link(CHtml::image("/dwel1/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/dwel1/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
+								echo CHtml::link(CHtml::image("/godwelling/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
 							}	
 	
 	?>
-	</div>	
-	<div class="post-header">
+                                <span class="name"><?php echo CHtml::link(CHtml::encode($content->author->displayName), $this->createUrl("/profile/{$content->author->id}/")); ?></span>
+                            </div>
+                            
+                            <div class="question-wrap">
+                                <h3>
+									<a href="<?php echo $this->createUrl('/' . $content->slug); ?>" rel="bookmark">	
+									<?php $md = new CMarkdownParser; echo strip_tags($md->safeTransform($content->extract), '<h1><h2><h3><h4><h5><6h><p><b><strong><i>'); ?>
+									</a>
+								</h3>
+                                
+                                <div class="date-time-wrap">
+                            		<?php echo $content->getCreatedFormatted() ?> | <?php echo CHtml::link(CHtml::encode($content->category->name), Yii::app()->createUrl($content->category->slug)); ?> | <?php echo $content->getCommentCount(); ?> comments</a>
+                            	</div>
+
+                            </div>
+
+							
+					<?php 
+					if(!Yii::app()->user->isGuest){
+					?>
+						<div class="review-widget">
+						<h2 class="review-count"><div id='mystar_voting_<?php echo $content->id ?>'>0</div></h2>
+							<div style="padding-left:60px">
+								<?php
+									$this->widget('CStarRating',array(
+									'name'=>'rating_'.$content->id,
+									'callback'=>'
+									function(){
+									$.ajax({
+									type: "POST",
+									url: "'.Yii::app()->createUrl('content/starRatingAjax').'",
+									data: "star_rating=" + $(this).val(),
+									success: function(data){
+									$("#mystar_voting_'.$content->id.'").html(data);
+									}})}'
+									));
+									echo "<br/>";
+									//echo "<div id='mystar_voting'></div>";
+								?>
+							</div>
+						<span class="review-rating">0 rating</span>
+
+						</div>
+					<?php
+					}
 
 
-			<a href="<?php echo $this->createUrl('/' . $content->slug); ?>" rel="bookmark">	
-			<?php $md = new CMarkdownParser; echo strip_tags($md->safeTransform($content->extract), '<h1><h2><h3><h4><h5><6h><p><b><strong><i>'); ?>
-			</a>
-		</div>
-		
-		<div class="blog-meta">
-			<span class="date"><?php echo $content->getCreatedFormatted() ?></span>
-			<span class="separator">⋅</span>
-			<span class="blog-author minor-meta"><strong>by </strong>
-				<span>
-					<?php echo CHtml::link(CHtml::encode($content->author->displayName), $this->createUrl("/profile/{$content->author->id}/")); ?>
-				</span>
-				<span class="separator">⋅</span> 
-			</span> 
-			<span class="minor-meta-wrap">
-				<span class="blog-categories minor-meta"><strong>in </strong>
-				<span>
-					<?php echo CHtml::link(CHtml::encode($content->category->name), Yii::app()->createUrl($content->category->slug)); ?>
-				</span> 
-				<span class="separator">⋅</span> 
-			</span> 					
-			<span class="comment-container">
-				<?php echo $content->getCommentCount(); ?> Comments</a>					
-			</span>
-			<span class="separator">⋅</span> 
-			<span class="comment-container">
-<span class="likes-container" style="position:absolute;top:-4px;padding-left:120px">
+					if(Yii::app()->user->isGuest){
+					?>					
+						<div class="review-widget">
+						<h2 class="review-count"><div id='mystar_voting_<?php echo $content->id ?>'>8.5</div></h2>
+							<div style="padding-left:60px">
+								<?php
+									$this->widget('CStarRating',array(
+									'name'=>'rating_'.$content->id,
+									'value'=>'7',
+									'readOnly'=>true,
+									'callback'=>'
+									function(){
+									$.ajax({
+									type: "POST",
+									url: "'.Yii::app()->createUrl('content/starRatingAjax').'",
+									data: "star_rating=" + $(this).val(),
+									success: function(data){
+									$("#mystar_voting_'.$content->id.'").html(data);
+									}})}'
+									));
+									echo "<br/>";
+									//echo "<div id='mystar_voting'></div>";
+								?>
+							</div>
+						<span class="review-rating">1 rating</span>
 
-<!-- Like and Dislike code comes here -->
-					
-				</span>				
-			</span>
-			
-						<?php 
+						</div>
+					<?php }?>							
+
+                           
+							<?php 
+							if(($content->video!="")||($content->photo!="")){?>
+
+								<?php 
+								if($content->video!=""){
+								
+								$videoURL = explode("=",$content->video);	
+															
+								?>
+								
+								<iframe class="video-holder" width="222" height="136" src="//www.youtube.com/embed/<?php echo $videoURL[1]; ?>?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+								<?php } 
+								if($content->photo!=""){
+								$imageUrl = $content->photo;
+								
+
+								
+								?>
+						
+								
+								<img style="width:222px;height:136px" src="uploads/<?php echo $imageUrl; ?>" class="video-holder" />
+								<?php /*echo CHtml::image("uploads/".$imageUrl, NULL, array('class'=> 'thumb', 'href' => "uploads/".$imageUrl, 'title' => "uploads/".$imageUrl));*/ ?>
+						
+								<?php } ?>
+							
+							<?php							
+							}else{
+							//echo $content->video; 
+							?>
+							
+                            <img src="./themes/default/assets/images/sample-video.jpg" class="video-holder" />
+                            
+							<?php
+							}
+							?>
+							
+							
+													<?php 
 						$comments = Comments::model()->findAllByAttributes(array('content_id' => $content->id));
 						
 						if(count($comments)>0){
@@ -90,9 +168,7 @@ $meta = Content::model()->parseMeta($content->metadata); ?>
 		//print_r($comments);
 		foreach($comments as $k=>$val){
 		?>
-			<div class="green-indicator author-indicator">
-	<div style="float:left;width:50px;position:relative">
-	
+                            <div class="comment-wrap">
 	<?php //echo $content->author->id; 
 							$model  = Users::model();
 							$id = $val['user_id'];
@@ -102,73 +178,36 @@ $meta = Content::model()->parseMeta($content->metadata); ?>
 							$userDetails = Users::model()->findByAttributes(array('id' => $id));
 							
 							if(count($image_data)>0){
-								echo CHtml::link(CHtml::image("/dwel1/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/dwel1/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
+								echo CHtml::link(CHtml::image("/godwelling/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
 							}else{
-								echo CHtml::link(CHtml::image("/dwel1/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/dwel1/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
+								echo CHtml::link(CHtml::image("/godwelling/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
 							}	
 	
 	?>
-	</div>				
-		<div class="comment-body">
-		    			    <p style="padding-bottom:5px">
-				
-
-								<?php if ($val['id'] != 0): ?>
-												<span class="icon-share-alt"></span> <?php echo CHtml::encode($userDetails->displayName); ?>•
-								<?php endif; ?>
-								<time class="timeago" datetime="<?php echo date(DATE_ISO8601, strtotime($val['created'])); ?>">
-									<?php echo Cii::formatDate($val['created']); ?>
-								</time><br/>
-
-							
-							
-							
-							<?php echo $val['comment']; ?><br/><br/></p>
+                                <div class="comment-text">
 								
-					<span class="likes-container" style="position:absolute;padding-left:150px">		
-					<div style="float:left;position:absolute;right:0px" class="likes <?php echo Yii::app()->user->isGuest ?: (Users::model()->findByPk(Yii::app()->user->id)->likesPost($content->id) ? 'liked' : NULL); ?>">     
-					    <div  style="position:absolute;right:60px;width:50px;top:-40px">
-						<a  onclick=testClick("like-count-<?php echo $val['id']; ?>"); style="cursor:pointer"   id="upvote" title="Like this post and discussion">
-							<span class="icon-thumbs-up icon-yellow"></span>
-							<span class="counter">
-					            <span style="font-family:arial;font-size:12px;font-weight:normal;color:#000000;background:none" id="like-count-<?php echo $val['id']; ?>">&nbsp;&nbsp;<?php echo $val['like_count']; ?> 
-								</span>
-					        </span> 	    	
-					             
-					    </a>&nbsp;&nbsp;
-						</div>
-						
-						<div style="position:absolute;right:0px;width:50px;top:-40px">
-						 <a  onclick=dislike("dislike-count-<?php echo $val['id']; ?>"); style="cursor:pointer"   id="upvote" title="Dislike this post and discussion">
-							<span class="icon-thumbs-down icon-red"></span>
-							<span class="counter">
-					            <span style="font-family:arial;font-size:12px;font-weight:normal;color:#000000" id="dislike-count-<?php echo $val['id']; ?>"><?php echo $val['dislike_count']; ?></span>
-					        </span> 
-					    	
-					             
-					    </a>
-						</div>	
-						
-						
-					</div>	
-					</span>
-					
-		</div>
-	</div>		
-<?php
-		}
-		}
-		?>
-				<h3 class="comment-count pull-left left-header"></h3>
-
-		</div>
-
-		<a class="read-more-icon" href="<?php echo $this->createUrl('/' . $content->slug); ?>" rel="bookmark">
-			<strong style="width: 93px;">Read more</strong>
-			<span></span>
-		</a>
-		
-	</div>
+								<h4><?php if ($val['id'] != 0): ?>
+												<span class="icon-share-alt"></span> <?php echo CHtml::encode($userDetails->displayName); ?>
+								<?php endif; ?>
+								
+                                	<small> <time class="timeago" datetime="<?php echo date(DATE_ISO8601, strtotime($val['created'])); ?>">
+									<?php echo Cii::formatDate($val['created']); ?>
+								</time></small></h4>
+                                	<p><?php echo $val['comment']; ?></p>
+                                    <ul class="comment-action group">
+                                    	<!--<li><a href="#" class="reply">Reply</a></li>
+                                        <li><a href="#" class="flag">Flag</a></li>-->
+                                        <li><a onclick=testClick("like-count-<?php echo $val['id']; ?>"); style="cursor:pointer"   id="upvote" title="Like this post and discussion" href="#" class="like">Like</a></li>
+                                        <li><a onclick=dislike("dislike-count-<?php echo $val['id']; ?>"); style="cursor:pointer"   id="upvote" title="Dislike this post and discussion" href="#" class="dislike">Dislike</a></li>	
+										<li><a href="#" style="text-decoration:none"><span id="like-count-<?php echo $val['id']; ?>">&nbsp;&nbsp;<?php echo $val['like_count']; ?> 
+								</span> Like</a></li>
+                                        <li><a href="#" style="text-decoration:none"><span id="dislike-count-<?php echo $val['id']; ?>"><?php echo $val['dislike_count']; ?></span> Dislike</a></li>	
+                                    </ul>
+                                </div>
+                                <div class="group"></div> 
+                            </div>
+		<?php } } ?>					
+                        </div>	
 
     <div style="clear:both;"><br /></div>
 

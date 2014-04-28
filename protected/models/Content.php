@@ -14,12 +14,19 @@
  * @property integer $commentable
  * @property integer $parent_id
  * @property integer $category_id
+ * @property integer $country_id
  * @property integer $type_id
  * @property string $password
  * @property integer $comment_count
  * @property integer $like_count
  * @property integer $dislike_count
  * @property string $slug
+ * @property string $ask
+ * @property string $expert 
+ * @property string $photo
+ * @property string $hideidentity
+ * @property string $categoryName
+ * @property string $video 
  * @property string $created
  * @property string $updated
  *
@@ -74,12 +81,13 @@ class Content extends CiiModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('vid, author_id, title, content, status, commentable, parent_id, category_id', 'required'),
-			array('vid, author_id, status, commentable, parent_id, category_id, type_id, comment_count, like_count, dislike_count', 'numerical', 'integerOnly'=>true),
+			array('vid, author_id, title, content, status, commentable, parent_id, category_id, country_id, ask', 'required'),
+			array('vid, author_id, status, commentable, parent_id, category_id, country_id, type_id, comment_count, like_count, dislike_count', 'numerical', 'integerOnly'=>true),
 			array('title, password, slug', 'length', 'max'=>150),
+			array('expert, photo, hideidentity, categoryName, video', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, vid, author_id, title, content, extract, status, commentable, parent_id, category_id, type_id, password, comment_count, like_count, dislike_count,slug, created, updated', 'safe', 'on'=>'search'),
+			array('id, vid, author_id, title, content, extract, status, commentable, parent_id, category_id, country_id, type_id, password, comment_count, like_count, dislike_count, slug, expert, photo, hideidentity, video, created, updated', 'safe', 'on'=>'search'),
 		);
 	}
 	
@@ -95,6 +103,7 @@ class Content extends CiiModel
 			'author' => array(self::BELONGS_TO, 'Users', 'author_id'),
 			'parent' => array(self::BELONGS_TO, 'Content', 'parent_id'),
 			'category' => array(self::BELONGS_TO, 'Categories', 'category_id'),
+			'country' => array(self::BELONGS_TO, 'Countries', 'country_id'),
 			'metadata' => array(self::HAS_MANY, 'ContentMetadata', 'content_id'),
 		);
 	}
@@ -115,6 +124,7 @@ class Content extends CiiModel
 			'commentable' => 'Commentable',
 			'parent_id' => 'Parent',
 			'category_id' => 'Category',
+			'country_id' => 'Country',
 			'type_id' => 'Type',
 			'password' => 'Password',
 			'comment_count' => 'Comments',
@@ -122,6 +132,12 @@ class Content extends CiiModel
 			'dislike_count' => 'Dislike',
 			'tags' => 'Tags',
 			'slug' => 'Slug',
+			'identity' => 'Show Identity',
+			'ask' => 'Ask Expert',
+			'photo' => 'Photo',
+			'hideidentity' => 'Photo1',
+			'categoryName' => 'Category Name',
+			'video' => 'Video',
 			'created' => 'Created',
 			'updated' => 'Updated',
 		);

@@ -15,7 +15,10 @@
 	    <?php Yii::app()->clientScript->registerMetaTag('text/html; charset=UTF-8', 'Content-Type', 'Content-Type', array(), 'Content-Type')
                                       ->registerMetaTag($this->keywords, 'keywords', 'keywords', array(), 'keywords')
                                       ->registerMetaTag(strip_tags($this->params['data']['extract']), 'description', 'description', array(), 'description')
-                                      ->registerCssFile($asset .'/css/main.css');?>
+                                      ->registerCssFile($asset .'/css/main.css')
+		                              ->registerCoreScript('jquery')
+								      ->registerScriptFile($asset .'/js/script.js'); ?>	
+									  
 </head>
 
 <body>
@@ -24,10 +27,13 @@
         	<div class="container-12">
                 <div class="group">
                     <ul class="offset-9 grid-3">
-                        <li><a href="#" class="facebook">Facebook</a></li>
-                        <li><a href="#" class="twitter">Twitter</a></li>
-                        <li><a href="#" class="linkedin">Linkedin</a></li>
-                        <li><a href="#" class="gplus">gplus</a></li>
+                        <li>
+						<a href="https://www.facebook.com/pages/Godwellingcom/241208609383565" class="facebook">Facebook</a>
+						</li>
+                        <li><a href="https://twitter.com/GoDwellingWeb" class="twitter">Twitter</a></li>
+                        <li><a href="http://www.linkedin.com/company/3592842?trk=tyah&trkInfo=tas%3Agodwe%2Cidx%3A1-1-1" 
+						class="linkedin">Linkedin</a></li>
+                        <li><a href="https://plus.google.com/u/1/b/111538487115466987695/111538487115466987695/posts" class="gplus">gplus</a></li>
                     </ul>
                 </div>
             </div>
@@ -37,17 +43,15 @@
         <div class="container-12 header2">
         	<div class="group">
             	<div class="grid-3">
-                	<a href="#" class="logo">Godwelling</a>
+                	<a href="<?php echo Yii::app()->request->baseUrl; ?>" class="logo">Godwelling</a>
                 </div>
                 <div class="offset-3 grid-6">
                 	<div class="left login-wrap">
 					<?php 
 					if(!Yii::app()->user->isGuest){
-					$this->widget('zii.widgets.CMenu',array(
-					'items'=>array(
-					array('label'=>'Logout ('.Yii::app()->user->displayName.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
-					),
-					));
+					?>
+					<a href="<?php echo Yii::app()->request->baseUrl; ?>/logout" class="gray-btn login-btn">Logout</a>
+					<?php
 					}
 
 
@@ -66,10 +70,38 @@
                             <option value="Albania">Albania</option>
                         </select>
                     </div>
+					<?php 
+					if(!Yii::app()->user->isGuest){
+					?>					
                     <div class="right profile-pic">
-                    	<img src="./themes/default/assets/images/avatar-profile.png" alt="profile picture" />
-                        <span class="notification">12</span>
+<?php 
+
+		$id = Yii::app()->user->id;
+		$displayName = Yii::app()->user->displayName;
+		
+		$attachmentCriteria = new CDbCriteria(array(
+		    'condition' => "user_id = {$id} AND (t.key LIKE 'upload-%' OR t.key = 'blog-image')",
+		    'order'     => 't.key ASC',
+		    'group'     => 't.value'
+		));
+        
+		$attachments = $id != NULL ? UserMetadata::model()->findAll($attachmentCriteria) : NULL;		
+
+foreach ($attachments as $attachment): ?>
+							    <div class="image-ctrl" id="<?php echo $attachment->key; ?>">
+    								<?php echo CHtml::image("/godwelling/uploads/".$attachment->value, NULL, array('class'=> 'thumb', 'width' => '40', 'height' => '40', 'href' => "/godwelling/uploads/".$attachment->value, 'title' => "/godwelling/uploads/".$attachment->value)); ?><br/>
+									<?php echo $displayName; ?>
+                                </div>
+							<?php endforeach; ?>
+										<?php
+				if(count($attachments)<=0){
+				?>
+                	<div id="noimage" style='display:""'><img src="./themes/default/assets/images/avatar-profile.png" alt="profile picture" /></div>
+				<?php } ?>		
+                    	<!--<img src="./themes/default/assets/images/avatar-profile.png" alt="profile picture" />-->
+                        <!--<span class="notification">12</span>-->
                     </div>
+					<?php } ?>
                 </div>
             </div>
         </div>
@@ -98,7 +130,10 @@
                 <!-- content part ends -->
 
     	<!-- content part ends here -->
-        
+        <div style="clear:both"></div>
+		</div>
+		</div>
+		</div>
         <div class="footer">
         	<div class="container-12">
             	<div class="group">
@@ -116,7 +151,6 @@
             </div>
         </div>
     
-	<script type="text/javascript" src="<?php echo $asset; ?>/js/jquery.js"></script>
     <script type="text/javascript" src="<?php echo $asset; ?>/js/chosen.jquery.min.js"></script>
     <script type="text/javascript" src="<?php echo $asset; ?>/js/required.js"></script>
 	<script type="text/javascript">
@@ -126,3 +160,6 @@
   	</script>
 </body>
 </html>
+
+
+
