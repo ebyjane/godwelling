@@ -1,5 +1,5 @@
 <?php $this->beginContent('//layouts/main'); ?>
-	<div class="span8">
+	
 		<?php echo $content; ?>
 		<?php 
 						$comments = Comments::model()->findAllByAttributes(array('content_id' => $content->id));
@@ -35,7 +35,12 @@
 		}
 		?>
 		
-	                <div class="grid-4 sidebar">
+	                
+           
+        </div>	
+
+
+	<div class="grid-4 sidebar">
                 	
                    
                     
@@ -44,12 +49,7 @@
                         <img src="images/add1.jpg" />
                         <img src="images/add2.jpg" />
                     </div>
-                </div>
-                <!-- sidebar ends -->
-            </div>
-        </div>	
-
-	<div class="span4 sidebar hidden-phone">
+              
 		<div class="well">
 			<h4>Search</h4>
 			<?php echo CHtml::beginForm($this->createUrl('/search'), 'get', array('id' => 'search')); ?>
