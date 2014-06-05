@@ -1,5 +1,5 @@
                         <div class="search-wrap">
-						<form method="get" action="/godwelling/search" id="search">  
+						<form method="get" action="/search" id="search">  
                           <input type="text" id="q" name="q" value="" placeholder="Type to search, then press enter"  class="search-box"/>
                           <input type="submit" value="Search" class="search-btn" />
 						  </form>
@@ -74,7 +74,7 @@
 											//print_r($categories);
 											?>&nbsp;&nbsp;
 
-											<?php echo CHtml::dropDownList('countries', $countries,
+											<?php echo CHtml::dropDownList('countries3', $countries,
 											$list1,
 											array('empty' => 'Select a country'));
 											?>											
@@ -427,6 +427,7 @@
                             	</div>
                        		 </div>
                              <!-- query popup ends here -->
+							 <input type="hidden" name="imageStore" id="imageStore" value="" />
                             
                         </div>
 						
@@ -487,55 +488,7 @@ $this->renderPartial('//content/_post', array('content' => $content)); ?>
     'pages' => $pages,
 )); ?>
 
-</div>
-
-                        
-
-                        
-                        <div class="box-wrap reviews-wrap">
-                        	<div class="image-wrap left">
-                        		<img src="./themes/default/assets/images/avatar-author.png" />
-                                <span class="name">Eby jane</span>
-                            </div>
-                            
-                            <div class="question-wrap">
-                            	<h3>Which is the best smart phone in India?</h3>
-                             
-                                <div class="date-time-wrap">
-                            		March 10, 2014 | Technology | 3 comments
-                            	</div>
-                            </div>
-                            
-                            <div class="review-widget">
-                            	<h2 class="review-count">3.5</h2>
-                                <ul class="star-wrap group">
-                                	<li class="full"></li>
-                                    <li class="full"></li>
-                                    <li class="full"></li>
-                                    <li class="half"></li>
-                                    <li class="empty"></li>
-                                </ul>
-                                <span class="review-rating">124 rating</span>
-
-                            </div>
-
-                            <div class="comment-wrap">
-                            	<img src="./themes/default/assets/images/avatar-commenter.png" class="left comment-img" />
-                                <div class="comment-text">
-                                	<h4>Chetan Kadur - <small> 2 days ago</small></h4>
-                                	<p>Great post! I would say that if you've neglected your blog for an extended period(2 months +), why not rally new and existing readers around a re-launch.</p>
-                                    <ul class="comment-action group">
-                                    	<li><a href="#" class="reply">Reply</a></li>
-                                        <li><a href="#" class="flag">Flag</a></li>
-                                        <li><a href="#" class="like">Like</a></li>
-                                        <li><a href="#" class="dislike">Dislike</a></li>	
-                                    </ul>
-                                </div>
-                                <div class="group"></div> 
-                            </div>
-                        </div>
-						
-						
+</div>				
 						
                         <!-- reviews wrap ends -->
                         </div>
@@ -569,7 +522,7 @@ function testClick(idVal){
 	var idData = id[2];
 	//alert(idData);
 
-	$.post("/godwelling/comment/like/id/"+idData, function(data, textStatus, jqXHR) {
+	$.post("/comment/like/id/"+idData, function(data, textStatus, jqXHR) {
 	//alert(data.status);
 		if (data.status == undefined)
 			window.location = "<?php echo $this->createUrl('/login'); ?>"
@@ -605,7 +558,7 @@ function dislike(idVal){
 	var idData = id[2];
 	//alert(idData);
 
-	$.post("/godwelling/comment/dislike/id/"+idData, function(data, textStatus, jqXHR) {
+	$.post("/comment/dislike/id/"+idData, function(data, textStatus, jqXHR) {
 	//alert(data.status);
 		if (data.status == undefined)
 			window.location = "<?php echo $this->createUrl('/login'); ?>"
@@ -644,14 +597,12 @@ function dislike(idVal){
         });
 
     $("#submit-query2").click(function(e) {
-	alert("i clicked submit button");
-				alert("we are here");
         e.preventDefault();
         if (($("#review_short").val() == "")||($("textarea#review_detail").val() == "")||($("#categories2 :selected").val() == "")||($("#countries2 :selected").val() == "")){
 			$("div#warning2").fadeIn();
             return;
 		}	
-			alert($("#countries2 :selected").val());
+			//alert($("#countries2 :selected").val());
 
 			
 		var formData = new FormData($("#ask2")[0]);	
@@ -661,14 +612,8 @@ function dislike(idVal){
 		datatype:"json",
 		success:function(result){
 		//$("#div1").html(result);
-		alert(result);
-		},
-		cache: false,
-        contentType: false,
-        processData: false
-    });
-		
-        $.post("/godwelling/content/content", 
+		//alert(result);
+			$.post("/content/content", 
         	{ 
         		"Content" : 
         		{ 
@@ -679,14 +624,15 @@ function dislike(idVal){
 					"ask" :   $("input:radio[name=ask2]:checked").val(),
 					"expert": $("#expert2 :selected").val(),
 					"identity" : $("#identity2").is(":checked"),
-					"photo" : $("#photo2").val(),
+					"photo" : result,
 					"cat" : $("#cat2").val(),
 					"video" : $("#video2").val()
         		}
         	}, 
         	function(data) { 
-				alert(data);
-        		$("#suggestion_short").text("");  
+				//alert(data);
+        		$("#suggestion_short").val("");  
+				$("#imageStore").val("");
         		$("#content-container").prepend(data);
         		$("div#content-container").children(":first").fadeIn();
         		$(".close").click();
@@ -694,17 +640,22 @@ function dislike(idVal){
         		/*$(".comment-count").text((parseInt($(".comment-count").text().replace(" Comment", "").replace(" Comments", "")) + 1) + " Comments");*/
         	}
         );
+		},
+		cache: false,
+        contentType: false,
+        processData: false
+    });
+		
+
     });	
 		
     $("#submit-query1").click(function(e) {
-	alert("i clicked submit button");
-				alert("we are here");
         e.preventDefault();
         if (($("#suggestion_short").val() == "")||($("textarea#suggestion_detail").val() == "")||($("#categories1 :selected").val() == "")||($("#countries1 :selected").val() == "")){
 			$("div#warning1").fadeIn();
             return;
 		}	
-			alert($("#countries1 :selected").val());
+			//alert($("#countries1 :selected").val());
 
 			
 		var formData = new FormData($("#ask1")[0]);	
@@ -714,14 +665,8 @@ function dislike(idVal){
 		datatype:"json",
 		success:function(result){
 		//$("#div1").html(result);
-		alert(result);
-		},
-		cache: false,
-        contentType: false,
-        processData: false
-    });
-		
-        $.post("/godwelling/content/content", 
+		//alert(result);
+			$.post("/content/content", 
         	{ 
         		"Content" : 
         		{ 
@@ -732,14 +677,14 @@ function dislike(idVal){
 					"ask" :   $("input:radio[name=ask1]:checked").val(),
 					"expert": $("#expert1 :selected").val(),
 					"identity" : $("#identity1").is(":checked"),
-					"photo" : $("#photo1").val(),
+					"photo" : result,
 					"cat" : $("#cat1").val(),
 					"video" : $("#video1").val()
         		}
         	}, 
         	function(data) { 
-				alert(data);
-        		$("#suggestion_short").text("");  
+				$("#suggestion_short").val("");  
+				$("#imageStore").val("");
         		$("#content-container").prepend(data);
         		$("div#content-container").children(":first").fadeIn();
         		$(".close").click();
@@ -747,13 +692,22 @@ function dislike(idVal){
         		/*$(".comment-count").text((parseInt($(".comment-count").text().replace(" Comment", "").replace(" Comments", "")) + 1) + " Comments");*/
         	}
         );
+		},
+		cache: false,
+        contentType: false,
+        processData: false
+    });
+		
+
     });		
     
     $("#submit-query").click(function(e) {
 	//alert("i clicked submit button");
 				//alert("we are here");
         e.preventDefault();
-        if (($("#query_short").val() == "")||($("textarea#query_detail").val() == "")||($("#categories :selected").val() == "")||($("#countries :selected").val() == "")){
+	
+        if (($("#query_short").val() == "")||($("textarea#query_detail").val() == "")||($("#categories :selected").val() == "")
+		||($("#countries3 :selected").val() == "")){
 			$("div#warning").fadeIn();
             return;
 		}	
@@ -766,40 +720,44 @@ function dislike(idVal){
         data: formData,
 		datatype:"json",
 		success:function(result){
-		//$("#div1").html(result);
-		alert(result);
-		},
-		cache: false,
-        contentType: false,
-        processData: false
-    });
-		
-        $.post("/godwelling/content/content", 
+	
+		$.post("/content/content", 
         	{ 
         		"Content" : 
         		{ 
         			"content" : $("textarea#query_detail").val(),
 					"title" : $("#query_short").val(),
 					"categories" : $("#categories :selected").val(),
-					"countries" : $("#countries :selected").val(),
+					"countries" : $("#countries3 :selected").val(),
 					"ask" :   $("input:radio[name=ask]:checked").val(),
 					"expert": $("#expert :selected").val(),
 					"identity" : $("#identity").is(":checked"),
-					"photo" : $("#photo").val(),
+					"photo" : result,
 					"cat" : $("#cat").val(),
 					"video" : $("#video").val()
         		}
         	}, 
         	function(data) { 
-				//alert(data);
-        		$("#query_short").text("");  
+        		$("#query_short").val("");  
+				
         		$("#content-container").prepend(data);
         		$("div#content-container").children(":first").fadeIn();
+				$("#imageStore").val("");
         		$(".close").click();
 				
         		/*$(".comment-count").text((parseInt($(".comment-count").text().replace(" Comment", "").replace(" Comments", "")) + 1) + " Comments");*/
         	}
         );
+			
+		//alert(result);	
+		},
+		cache: false,
+        contentType: false,
+        processData: false
+    });
+	
+	//alert($("#imageStore").val());
+	
     });
 ')->registerScript('likeButton', '
 	$("[id ^=\'upvote\']").click(function(e) {
@@ -808,7 +766,7 @@ function dislike(idVal){
 		var id = idVal.split("-");		
 		var url = "/comment/like/id/"+id[2];
 
-		$.post("/godwelling/comment/like/id/"+id[2], function(data, textStatus, jqXHR) {
+		$.post("/comment/like/id/"+id[2], function(data, textStatus, jqXHR) {
 			if (data.status == undefined)
 				window.location = "' . $this->createUrl('/login') . '"
 

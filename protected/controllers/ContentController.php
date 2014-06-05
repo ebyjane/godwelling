@@ -333,7 +333,7 @@ class ContentController extends CiiController
 			{
 				$_SESSION['password'][$id]['password'] = $encrypted;
 				$_SESSION['password'][$id]['tries'] = 0;
-				$this->redirect(Yii::app()->createUrl("/godwelling/".$content->attributes['slug']));
+				$this->redirect(Yii::app()->createUrl("/".$content->attributes['slug']));
 			}
 			else
 			{
@@ -355,7 +355,7 @@ class ContentController extends CiiController
 	public function actionList()
 	{
 
-		$this->setPageTitle('All Content');
+		$this->setPageTitle('Godwelling - Queries');
 		$this->setLayout('default');
 		//$this->breadcrumbs = array('Blogroll');
 		
@@ -380,6 +380,39 @@ class ContentController extends CiiController
 		$data = Content::model()->findAll($criteria);
 		$pages->applyLimit($criteria);
 		$this->render('all', array('data'=>$data, 'itemCount'=>$itemCount, 'pages'=>$pages));
+	}
+	
+	public function actionCountry()
+	{
+	
+		$country = $_REQUEST['c'];
+		$this->setPageTitle('Godwelling - Queries');
+		$this->setLayout('default');
+		//$this->breadcrumbs = array('Blogroll');
+		
+		$data = array();
+		$pages = array();
+		$itemCount = 0;
+		$pageSize = Cii::getConfig('contentPaginationSize', 5);
+	
+		$criteria=new CDbCriteria;
+        $criteria->order = 'created DESC';
+        $criteria->limit = $pageSize;
+		$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)")
+		         ->addCondition('type_id >= 2')
+		         ->addCondition('password = ""')
+				 ->addCondition('country_id = '.$country)
+		         ->addCondition('status = 1');
+		
+		$itemCount = Content::model()->count($criteria);
+		$pages=new CPagination($itemCount);
+		$pages->pageSize=$pageSize;
+		
+		$criteria->offset = $criteria->limit*($pages->getCurrentPage());
+		$data = Content::model()->findAll($criteria);
+		$pages->applyLimit($criteria);
+		$this->render('all', array('data'=>$data, 'itemCount'=>$itemCount, 'pages'=>$pages));
+
 	}
 	
 	/**
@@ -419,12 +452,20 @@ class ContentController extends CiiController
 		$type = $_FILES['photo2']['type'];
 		$tmp = $_FILES['photo2']['tmp_name'];
 
-		$move = "uploads/".$photo;
+		//$move = "uploads/".$photo;
 
 		if(isset($photo) && !empty($photo)){
 		if($size <= $maxsize){
-		if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png'){
-		move_uploaded_file($tmp,$move);
+		if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png' || $ext == 'gif'){
+			//$rnd = rand(0123456789, 9876543210);    // generate random number between 0123456789-9876543210
+			$timeStamp = time();    // generate current timestamp
+			$uploadedFile = $_FILES['photo2']['name'];
+			if ($uploadedFile != null) {
+				$fileName = "godwelling-{$timeStamp}-{$uploadedFile}";  // random number + Timestamp + file name
+			}	
+		$move = "uploads/".$fileName;
+		move_uploaded_file($tmp, $move);
+		echo $fileName;
 		}}}
 	}		
 	
@@ -437,12 +478,20 @@ class ContentController extends CiiController
 		$type = $_FILES['photo1']['type'];
 		$tmp = $_FILES['photo1']['tmp_name'];
 
-		$move = "uploads/".$photo;
+		//$move = "uploads/".$photo;
 
 		if(isset($photo) && !empty($photo)){
 		if($size <= $maxsize){
-		if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png'){
-		move_uploaded_file($tmp,$move);
+		if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png' || $ext == 'gif'){
+			//$rnd = rand(0123456789, 9876543210);    // generate random number between 0123456789-9876543210
+			$timeStamp = time();    // generate current timestamp
+			$uploadedFile = $_FILES['photo1']['name'];
+			if ($uploadedFile != null) {
+				$fileName = "godwelling-{$timeStamp}-{$uploadedFile}";  // random number + Timestamp + file name
+			}	
+		$move = "uploads/".$fileName;
+		move_uploaded_file($tmp, $move);
+		echo $fileName;
 		}}}
 	}	
 		
@@ -455,12 +504,21 @@ class ContentController extends CiiController
 		$type = $_FILES['photo']['type'];
 		$tmp = $_FILES['photo']['tmp_name'];
 
-		$move = "uploads/".$photo;
+		
 
 		if(isset($photo) && !empty($photo)){
 		if($size <= $maxsize){
-		if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png'){
-		move_uploaded_file($tmp,$move);
+		if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png' || $ext == 'gif'){
+			//$rnd = rand(0123456789, 9876543210);    // generate random number between 0123456789-9876543210
+			$timeStamp = time();    // generate current timestamp
+			$uploadedFile = $_FILES['photo']['name'];
+			if ($uploadedFile != null) {
+				$fileName = "godwelling-{$timeStamp}-{$uploadedFile}";  // random number + Timestamp + file name
+			}	
+		$move = "uploads/".$fileName;
+		move_uploaded_file($tmp, $move);
+		echo $fileName;
+		//echo "testing";
 		}}}
 
 

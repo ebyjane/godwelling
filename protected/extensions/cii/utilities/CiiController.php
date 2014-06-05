@@ -93,26 +93,29 @@ class CiiController extends CController
      */
     protected function sendEmail(Users $user, $subject = "", $viewFile, $content = array(), $return = true, $processOutput = true)
     {
+	//echo "we are here inside mail function";
+	//print_r($user);
+	//exit();
 
         Yii::import('application.extensions.phpmailer.JPhpMailer');
         $mail = new JPhpMailer;
         $mail->IsSMTP();
 		
-        $smtpHost    = Cii::getConfig('SMTPHost',    "smtp.gmail.com");
-        $smtpPort    = Cii::getConfig('SMTPPort',    "465");
-        $smtpUser    = Cii::getConfig('SMTPUser',    "eby.jane@gmail.com");
-        $smtpPass    = Cii::getConfig('SMTPPass',    "Dan@2014");
-		$mail->SMTPDebug = 1;		
+        $smtpHost    = Cii::getConfig('SMTPHost',    "mail.godwelling.com");
+        $smtpPort    = Cii::getConfig('SMTPPort',    "587");
+        $smtpUser    = Cii::getConfig('SMTPUser',    "godweiff@godwelling.com");
+        $smtpPass    = Cii::getConfig('SMTPPass',    "chethan");
+		//$mail->SMTPDebug = 1;		
 
         $notifyUser  = new stdClass;
-        $notifyUser->email       = Cii::getConfig('notifyEmail', NULL);
-        $notifyUser->displayName = Cii::getConfig('notifyName',  NULL);
+        $notifyUser->email       = Cii::getConfig('notifyEmail', "godweiff@godwelling.com");
+        $notifyUser->displayName = Cii::getConfig('notifyName',  "Dwelling");
 
         if ($smtpHost !== NULL)
             $mail->Host       = $smtpHost; 
 
 			$mail->SMTPAuth = true;
-			$mail->SMTPSecure = "ssl";
+			//$mail->SMTPSecure = "ssl";
 			
         if ($smtpPort !== NULL)
             $mail->Port       = $smtpPort;
@@ -131,9 +134,19 @@ class CiiController extends CController
 		$mail->AltBody = 'To view the message, please use an HTML compatible email viewer!';
         $mail->MsgHTML($this->renderPartial($viewFile, $content, $return, $processOutput));
         $mail->AddAddress($user->email, $user->displayName);
+		
+		//$mailto = $user->email;
+		//$subject = $mail->Subject;
+		//$message_body = $mail->Body;
+		//$mail->From = "godweiff@godwelling.com";
+		//$mail->FromName = "Dwelling";
+		
 
         try {
+		//print_r($mail);
+		//exit();
             return $mail->Send();
+			//return mail($mailto,$subject,$message_body,"From:".$from);
         } catch (Exception $e) {
             return false;
         }

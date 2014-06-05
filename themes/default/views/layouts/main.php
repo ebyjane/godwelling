@@ -43,7 +43,7 @@
         <div class="container-12 header2">
         	<div class="group">
             	<div class="grid-3">
-                	<a href="<?php echo Yii::app()->request->baseUrl; ?>" class="logo">Godwelling</a>
+                	<a href="http://godwelling.com" class="logo">Godwelling</a>
                 </div>
                 <div class="offset-3 grid-6">
                 	<div class="left login-wrap">
@@ -61,14 +61,45 @@
                         <a href="<?php echo Yii::app()->request->baseUrl; ?>/site/register" class="gray-btn signup-btn">Signup</a><?php }?>
                     </div>
                     <div class="left chosen-wrap">
-                    	<select data-placeholder="Select Country" class="chosen" tabindex="1">
+                    	<!--<select data-placeholder="Select Country" class="chosen" tabindex="1">
                             <option value=""></option>
                             <option value="United States">United States</option>
                             <option value="United Kingdom">United Kingdom</option>
                             <option value="Afghanistan">Afghanistan</option>
                             <option value="Aland Islands">Aland Islands</option>
                             <option value="Albania">Albania</option>
-                        </select>
+                        </select>-->
+						
+						<?php
+											$countries = Countries::model()->findAll();
+											$countries = "";
+
+											$models1 = Countries::model()->findAll(
+											array('order' => 'nicename'));
+
+											// format models as $key=>$value with listData
+											$list1 = CHtml::listData($models1, 
+											'id', 'nicename');
+											//print_r($categories);
+											?>&nbsp;&nbsp;
+											
+											<?php
+											$param = "http://godwelling.com/content/country/?c="
+											?>
+
+											<?php echo CHtml::dropDownList('countries', $countries,
+											$list1,
+											array('empty' => 'Select a country',
+											'options' => array('selected'=>false),
+											'class' => 'chosen',
+											'onchange'=>'javascript: document.location.href="'.$param.'"+$(this).val();'
+											
+											)
+											
+											);
+											
+											
+											?>	
                     </div>
 					<?php 
 					if(!Yii::app()->user->isGuest){
@@ -89,14 +120,14 @@
 
 foreach ($attachments as $attachment): ?>
 							    <div class="image-ctrl" id="<?php echo $attachment->key; ?>">
-    								<?php echo CHtml::image("/godwelling/uploads/".$attachment->value, NULL, array('class'=> 'thumb', 'width' => '40', 'height' => '40', 'href' => "/godwelling/uploads/".$attachment->value, 'title' => "/godwelling/uploads/".$attachment->value)); ?><br/>
+    								<?php echo CHtml::image("/uploads/".$attachment->value, NULL, array('class'=> 'thumb', 'width' => '40', 'height' => '40', 'href' => "/uploads/".$attachment->value, 'title' => "/uploads/".$attachment->value)); ?><br/>
 									<?php echo $displayName; ?>
                                 </div>
 							<?php endforeach; ?>
 										<?php
 				if(count($attachments)<=0){
 				?>
-                	<div id="noimage" style='display:""'><img src="./themes/default/assets/images/avatar-profile.png" alt="profile picture" /></div>
+                	<div id="noimage" style='display:""'><img src="http://godwelling.com/themes/default/assets/images/avatar-profile.png" alt="profile picture" /></div>
 				<?php } ?>		
                     	<!--<img src="./themes/default/assets/images/avatar-profile.png" alt="profile picture" />-->
                         <!--<span class="notification">12</span>-->
@@ -111,7 +142,7 @@ foreach ($attachments as $attachment): ?>
         	<div class="container-12">
             	<div class="group">
                     <ul class="grid-12">
-                        <li><a href="#">Queries</a></li>
+                        <li><a href="http://godwelling.com">Queries</a></li>
                     </ul>
                 </div>
             </div>
@@ -158,6 +189,7 @@ foreach ($attachments as $attachment): ?>
 			$(".chosen, .chosen-category").chosen();
 		});
   	</script>
+	
 </body>
 </html>
 

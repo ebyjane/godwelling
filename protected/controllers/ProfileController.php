@@ -89,7 +89,7 @@ class ProfileController extends CiiController
 			if ($model === NULL)
 				throw new CHttpException(404, 'Oops! That user doesn\'t exist on our network!');
 			else
-				$this->redirect('/godwelling/profile/' . $model->id . '/' . preg_replace('/[^\da-z]/i', '', $model->displayName));
+				$this->redirect('/profile/' . $model->id . '/' . preg_replace('/[^\da-z]/i', '', $model->displayName));
 		}
 
 		$model = Users::model()->findByPk($id);
@@ -227,7 +227,7 @@ if (Yii::app()->request->isPostRequest)
 					$meta = new ContentMetadata;
 				$meta->content_id = $id;
 				$meta->key = $result['filename'];
-				$meta->value = '/godwelling/uploads' . $path . $result['filename'];
+				$meta->value = '/uploads' . $path . $result['filename'];
 				$meta->save();
 				$result['filepath'] = '/uploads/' . $result['filename'];
 			}

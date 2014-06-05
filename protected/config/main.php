@@ -1,12 +1,13 @@
-<?php return array(
+<?php 
+return array(
         'name' => 'dweling',
         'components' => array(
             'db' => array(
                 'class' => 'CDbConnection',
-                'connectionString' => 'mysql:host=localhost;dbname=dwel1',
+                'connectionString' => 'mysql:host=localhost;dbname=godweiff_dweling',
                 'emulatePrepare' => true,
-                'username' => 'root',
-                'password' => '',
+                'username' => 'godweiff_chethan',
+                'password' => 'chethan',
                 'charset' => 'utf8',
                 'schemaCachingDuration' => '3600',
                 'enableProfiling' => true,
@@ -15,9 +16,9 @@
                 'class' => 'CFileCache',
             ),
         ),
-		/*'modules' => array(
+'modules' => array(
 			'hybridauth' => array(
-            'baseUrl' => 'http://'. $_SERVER['SERVER_NAME'] . '/godwelling/hybridauth', 
+            'baseUrl' => 'http://'. $_SERVER['SERVER_NAME'] . '/hybridauth', 
             'withYiiUser' => true, // Set to true if using yii-user
             "providers" => array ( 
                /* "openid" => array (
@@ -26,7 +27,7 @@
  
                 "yahoo" => array ( 
                     "enabled" => true 
-                ),
+                ),*/
  
  
                 "facebook" => array ( 
@@ -50,9 +51,9 @@
         ),
 		
 	
-		),	*/
+		),		
         'params' => array(
-            'yiiPath' => 'C:/xampp/htdocs/dwel1/framework/',
+            'yiiPath' => '/home/godweiff/public_html/framework/',
             'encryptionKey' => '6caa403d304708527a5875f117ff4bd3cdcc7e5e671760752c07d7c9eeaa0589b1a2a39098a5241e6f72f38a3cb06eef443dbea099864bd541ff0559',
         )
     );

@@ -24,9 +24,10 @@ Yii::import('ext.jqPrettyPhoto');
 							$userDetails = Users::model()->findByAttributes(array('id' => $id));
 							//echo count($image_data);
 							if(count($image_data)>0){
-								echo CHtml::link(CHtml::image("/godwelling/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
+
+								echo CHtml::link(CHtml::image("http://godwelling.com/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "http://godwelling.com/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
 							}else{
-								echo CHtml::link(CHtml::image("/godwelling/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
+								echo CHtml::link(CHtml::image("http://godwelling.com/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "http://godwelling.com/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$content->author->id}/"));
 							}	
 	
 	?>
@@ -35,19 +36,41 @@ Yii::import('ext.jqPrettyPhoto');
                             
                             <div class="question-wrap">
                                 <h3>
-									<a href="<?php echo $this->createUrl('/' . $content->slug); ?>" rel="bookmark">	
-									<?php $md = new CMarkdownParser; echo strip_tags($md->safeTransform($content->extract), '<h1><h2><h3><h4><h5><6h><p><b><strong><i>'); ?>
+									<div style="padding-bottom:10px"><a style="font-size:12px;" href="<?php echo $this->createUrl('/' . $content->slug); ?>" rel="bookmark">	
+									<?php $md = new CMarkdownParser; echo strip_tags($md->safeTransform($content->title), '<h1><h2><h3><h4><h5><6h><p><b><strong><i>'); ?>
 									</a>
+									</div>
+									
+									<?php
+									if($content->categoryName != 'review'){
+									$contentVal = substr($content->content, 0, 200) . "...";
+									}
+									?>
+									
+									<div style="font-size:12px">
+									<?php $md = new CMarkdownParser; echo strip_tags($md->safeTransform($contentVal), '<h1><h2><h3><h4><h5><6h><b><strong><i>'); ?>
+									<?php
+									//echo $content->categoryName;
+									if($content->categoryName != 'review'){?>
+									<a href="<?php echo $this->createUrl('/' . $content->slug); ?>" rel="bookmark">	
+									&nbsp; Read more &raquo;
+									</a>
+									<?php
+									}
+									?>
+									</div>
+
 								</h3>
                                 
                                 <div class="date-time-wrap">
-                            		<?php echo $content->getCreatedFormatted() ?> | <?php echo CHtml::link(CHtml::encode($content->category->name), Yii::app()->createUrl($content->category->slug)); ?> | <?php echo $content->getCommentCount(); ?> comments</a>
+                            		<?php echo $content->getCreatedFormatted() ?> | <?php echo CHtml::link(CHtml::encode($content->category->name), Yii::app()->createUrl($content->category->slug)); ?> | <?php echo $content->getCommentCount(); ?> comments |  <?php echo $content->categoryName; ?></a>
                             	</div>
 
                             </div>
 
 							
 					<?php 
+					if($content->categoryName == 'review'){
 					if(!Yii::app()->user->isGuest){
 					?>
 						<div class="review-widget">
@@ -104,7 +127,7 @@ Yii::import('ext.jqPrettyPhoto');
 						<span class="review-rating">1 rating</span>
 
 						</div>
-					<?php }?>							
+					<?php } }?>							
 
                            
 							<?php 
@@ -119,15 +142,22 @@ Yii::import('ext.jqPrettyPhoto');
 								
 								<iframe class="video-holder" width="222" height="136" src="//www.youtube.com/embed/<?php echo $videoURL[1]; ?>?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 								<?php } 
-								if($content->photo!=""){
-								$imageUrl = $content->photo;
 								
+								//echo $content->photo;
+								if($content->photo!=""){
+								$content->photo = str_replace("C:\\fakepath\\","",$content->photo);
+								$imageUrl = $content->photo;
+								$config = array(
+								);
 
+								$this->widget('application.extensions.fancybox.EFancyBox', array(
+								'target'=>'#photo'.$content->id,
+								'config'=>$config,));
 								
 								?>
 						
-								
-								<img style="width:222px;height:136px" src="uploads/<?php echo $imageUrl; ?>" class="video-holder" />
+								<a id="photo<?php echo $content->id; ?>" href="http://godwelling.com/uploads/<?php echo $imageUrl; ?>" >
+								<img style="width:222px;height:136px" src="http://godwelling.com/uploads/<?php echo $imageUrl; ?>" class="video-holder" /></a>
 								<?php /*echo CHtml::image("uploads/".$imageUrl, NULL, array('class'=> 'thumb', 'href' => "uploads/".$imageUrl, 'title' => "uploads/".$imageUrl));*/ ?>
 						
 								<?php } ?>
@@ -136,8 +166,9 @@ Yii::import('ext.jqPrettyPhoto');
 							}else{
 							//echo $content->video; 
 							?>
-							
-                            <img src="./themes/default/assets/images/sample-video.jpg" class="video-holder" />
+							&nbsp;
+							<div style="margin: 10px 0 10px 11%;">&nbsp;</div>
+                           <!--<img src="" class="video-holder" />-->
                             
 							<?php
 							}
@@ -178,9 +209,9 @@ Yii::import('ext.jqPrettyPhoto');
 							$userDetails = Users::model()->findByAttributes(array('id' => $id));
 							
 							if(count($image_data)>0){
-								echo CHtml::link(CHtml::image("/godwelling/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
+								echo CHtml::link(CHtml::image("./uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "./uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
 							}else{
-								echo CHtml::link(CHtml::image("/godwelling/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
+								echo CHtml::link(CHtml::image("./uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "./uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
 							}	
 	
 	?>

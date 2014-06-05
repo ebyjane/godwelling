@@ -211,7 +211,7 @@ class Users extends CiiModel
 	
 	public function dwelingImage($size=20, $default=NULL)
 	{
-		return "http://localhost/godwelling/uploads/images.jpg?s=".$size;
+		return "http://godwelling.com/uploads/images.jpg?s=".$size;
 	}	
 	
 	

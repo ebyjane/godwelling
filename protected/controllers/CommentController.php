@@ -196,6 +196,7 @@ class CommentController extends CiiController
 		}
 		
 		$user->value = json_encode($likes);
+		
 		if (!$user->save())
 		{
 			echo CJavaScript::jsonEncode(array('status' => 'error', 'message' => 'Unable to save user like'));

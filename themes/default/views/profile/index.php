@@ -23,9 +23,9 @@
 							$image_data = UserMetadata::model()->findByAttributes(array('user_id' => $id, 'key' => $key));
 							//echo count($image_data);
 							if(count($image_data)>0){
-								echo CHtml::image("/godwelling/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/".$image_data->value, 'title' => "/godwelling/uploads/".$image_data->value)); 
+								echo CHtml::image("/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/uploads/".$image_data->value, 'title' => "/uploads/".$image_data->value)); 
 							}else{							
-								echo CHtml::image("/godwelling/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/godwelling/uploads/images.jpg", 'title' => "/godwelling/uploads/images.jpg")); 
+								echo CHtml::image("/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px',  'href' => "/uploads/images.jpg", 'title' => "/uploads/images.jpg")); 
 							}
 							?>
                 	<ul>

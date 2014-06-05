@@ -71,7 +71,7 @@ $list = CHtml::listData($models,
 							               		if (response.success)
 							               		{
 												    $('#noimage').hide();
-							               			$('#new-attachment').before('<span class=\"thumb-container thumb-center\"><span class=\"thumb-inner\"><span class=\"thumb-img\"><img class=\"thumb\" href=\"/godwelling/'+ response.filepath +'\" src=\"/godwelling/'+ response.filepath +'\" style=\"left: 25px; top: 25px;\"></span><span class=\"thumb-strip\"></span><span class=\"thumb-icon\"></span></span></span>').after('<li id=\"new-attachment\" style=\"display:none;\">');
+							               			$('#new-attachment').before('<span class=\"thumb-container thumb-center\"><span class=\"thumb-inner\"><span class=\"thumb-img\"><img class=\"thumb\" href=\"http://godwelling.com/'+ response.filepath +'\" src=\"http://godwelling.com/'+ response.filepath +'\" style=\"left: 25px; top: 25px;\"></span><span class=\"thumb-strip\"></span><span class=\"thumb-icon\"></span></span></span>').after('<li id=\"new-attachment\" style=\"display:none;\">');
 							               			$('.thumb').thumbs();
 													$('.thumb').colorbox({rel:'thumb'});
 													$('#new-attachment-img').show().attr('id', 'thumb');
@@ -84,7 +84,7 @@ $list = CHtml::listData($models,
 
 							<?php foreach ($attachments as $attachment): ?>
 							    <div class="image-ctrl" id="<?php echo $attachment->key; ?>">
-    								<?php echo CHtml::image("/godwelling/uploads/".$attachment->value, NULL, array('class'=> 'thumb', 'href' => "/godwelling/uploads/".$attachment->value, 'title' => "/godwelling/uploads/".$attachment->value)); ?>
+    								<?php echo CHtml::image("/uploads/".$attachment->value, NULL, array('class'=> 'thumb', 'href' => "/uploads/".$attachment->value, 'title' => "/uploads/".$attachment->value)); ?>
                                     <span class="delete-button icon icon-remove" id="<?php echo $attachment->key; ?>"></span>
                                      <!--<span class="star-button icon icon-star-empty" id="<?php echo $attachment->key; ?>"></span>-->
                                 </div>
@@ -127,7 +127,7 @@ $list = CHtml::listData($models,
 							               		if (response.success)
 							               		{
 													 $('#noimage').hide();
-							               			$('#new-attachment').before('<span class=\"thumb-container thumb-center\"><span class=\"thumb-inner\"><span class=\"thumb-img\"><img class=\"thumb\" href=\"/godwelling/'+ response.filepath +'\" src=\"/godwelling/'+ response.filepath +'\" ></span><span class=\"thumb-strip\"></span><span class=\"thumb-icon\"></span></span></span>').after('<li id=\"new-attachment\" style=\"display:none;\">');
+							               			$('#new-attachment').before('<span class=\"thumb-container thumb-center\"><span class=\"thumb-inner\"><span class=\"thumb-img\"><img class=\"thumb\" href=\"http://godwelling.com/'+ response.filepath +'\" src=\"http://godwelling.com/'+ response.filepath +'\" ></span><span class=\"thumb-strip\"></span><span class=\"thumb-icon\"></span></span></span>').after('<li id=\"new-attachment\" style=\"display:none;\">');
 							               			$('.thumb').thumbs();
 													$('.thumb').colorbox({rel:'thumb'});
 													$('#new-attachment-img').show().attr('id', 'thumb');
@@ -163,7 +163,7 @@ $list = CHtml::listData($models,
     <!-- register-mail-wrap ends here -->
 
 <?php 
-$asset="/godwelling/images/df937e1b"; ?>
+$asset="/images/df937e1b"; ?>
 <?php Yii::app()->clientScript->registerCssFile($asset . '/css/jquery.tags.css'); ?>
 <?php Yii::app()->clientScript->registerCssFile($asset . '/css/colorbox.css'); ?>
 <?php Yii::app()->clientScript->registerCssFile($asset . '/css/jquery.thumbs.css'); ?>
@@ -176,7 +176,7 @@ $asset="/godwelling/images/df937e1b"; ?>
 	<?php Yii::app()->clientScript->registerScript('admin_colorbox', '$(".thumb").colorbox({rel:"thumb"});'); ?>
 	<?php Yii::app()->clientScript->registerScript('admin_promote', '$(".star-button").click(function() { 
 		var id = $(this).attr("id");
-		$.post("../../godwelling/profile/promoteImage/id/'.$model->id.'", { id : ' . $model->id . ', key : id }, function() {
+		$.post("../../profile/promoteImage/id/'.$model->id.'", { id : ' . $model->id . ', key : id }, function() {
 	        $(".image-ctrl").find(".thumb-container").css("border-color", "").removeClass("transition");
 	        $("div[id*=\'" + id + "\']").find(".thumb-container").addClass("transition");
 	        $(".star-button").addClass("icon-star-empty").removeClass("icon-star");
@@ -185,7 +185,7 @@ $asset="/godwelling/images/df937e1b"; ?>
 	});'); ?>
 	<?php Yii::app()->clientScript->registerScript('admin_delete', '$(".delete-button").click(function() {
 	    var element = $(this);
-	    $.post("../../godwelling/profile/removeImage/id/'.$model->id.'", { id : ' . $model->id . ', key : $(this).attr("id") }, function () {
+	    $.post("../../profile/removeImage/id/'.$model->id.'", { id : ' . $model->id . ', key : $(this).attr("id") }, function () {
 	        element.parent().fadeOut();
 	    });
 	})'); ?>

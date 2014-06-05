@@ -10,14 +10,64 @@
 							$userDetails = Users::model()->findByAttributes(array('id' => $id));
 							//echo $userDetails->displayName;
 							//exit();
-							if(count($image_data)>0){
-								echo CHtml::link(CHtml::image("/godwelling/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/godwelling/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
+							/*if(count($image_data)>0){
+								echo CHtml::link(CHtml::image("/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
 							}else{
-								echo CHtml::link(CHtml::image("/godwelling/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/godwelling/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
-							}	
+								echo CHtml::link(CHtml::image("/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
+							}	*/
 	
 	?>
-	<div class="<?php echo $comment->author->id == $comment->content->author->id ? 'green-indicator author-indicator' : NULL; ?>">
+
+<div class="comment-wrap" style="margin:0px">	
+<div class="comment-text" style="float:left">
+							<?php
+							if(count($image_data)>0){
+								echo CHtml::link(CHtml::image("/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
+							}else{
+								echo CHtml::link(CHtml::image("/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
+							}
+							?>
+										<?php 
+			//print_r($comment);
+			echo CHtml::encode($comment->author->name); ?>
+			<?php if ($comment->parent_id != 0): ?>
+				<span class="icon-share-alt"></span> <?php echo CHtml::encode($comment->parent->author->name); ?> •
+			<?php else: ?>
+			 <span class="icon-share-alt"></span> <?php echo CHtml::encode($comment->author->displayName); ?>•
+			<?php endif; ?>
+
+								
+                                	<small> <time class="timeago" datetime="<?php echo date(DATE_ISO8601, strtotime($comment->created)); ?>">
+									<?php echo Cii::formatDate($comment->created); ?>
+								</time></small></h4>
+                                	<p style="margin-left:50px;"><?php echo $comment->comment; ?></p>
+		
+                                    <ul class="comment-action group" style="margin-left:30px">
+									<li style="width:30px">&nbsp;</li>
+				  <li><span style="cursor:pointer" class="flag <?php echo $comment->approved == -1 ? 'flagged' : NULL; ?>" data-attr-id="<?php echo $comment->id; ?>"><?php echo $comment->approved == -1 ? 'flagged' : 'flag'; ?></span></li>
+                                    	<!--<li><a href="#" class="reply">Reply</a></li>
+                                        <li><a href="#" class="flag">Flag</a></li>-->
+                                        <li><a onclick=testClick("like-count-<?php echo $comment->id; ?>"); style="cursor:pointer"   id="upvote" title="Like this post and discussion" href="#" class="like">Like</a></li>
+                                        <li><a onclick=dislike("dislike-count-<?php echo $comment->id; ?>"); style="cursor:pointer"   id="upvote" title="Dislike this post and discussion" href="#" class="dislike">Dislike</a></li>	
+										<li><a href="#" style="text-decoration:none"><span id="like-count-<?php echo $comment->id; ?>">&nbsp;&nbsp;
+										<?php echo $comment->like_count; ?> 
+								</span> Like</a></li>
+                                        <li><a href="#" style="text-decoration:none"><span id="dislike-count-<?php echo $comment->id; ?>">
+										<?php echo $comment->dislike_count; ?></span> Dislike</a></li>	
+                                    </ul>
+                                </div>
+                                <div class="group"></div> 
+                            </div>
+							<div class="comment-body comment-byline comment-byline-footer">
+							<?php if (!Yii::app()->user->isGuest && $comment->approved != -2 && $comment->created != "now"): ?>
+								<?php if ($comment->content->commentable): ?>
+									<span class="reply" style="font-size:12px;cursor:pointer;position:relative;top:-17px;padding-left:37px">reply</span>
+								<?php endif; ?>
+								<?php endif; ?>
+							</div>	
+                        </div>		
+	
+	<!--<div class="<?php echo $comment->author->id == $comment->content->author->id ? 'green-indicator author-indicator' : NULL; ?>">
 		<div class="comment-body comment-byline">
 			<?php 
 			//print_r($comment);
@@ -38,13 +88,9 @@
 			    <?php echo $md->safeTransform($comment->comment); ?>
 			<?php endif; ?>
 		</div>
-		<div class="comment-body comment-byline comment-byline-footer">
-			<?php if (!Yii::app()->user->isGuest && $comment->approved != -2 && $comment->created != "now"): ?>
-			    <?php if ($comment->content->commentable): ?>
-				    <span class="reply">reply</span>
-				<?php endif; ?>
-				<?php endif; ?>
-				 • <span class="flag <?php echo $comment->approved == -1 ? 'flagged' : NULL; ?>" data-attr-id="<?php echo $comment->id; ?>"><?php echo $comment->approved == -1 ? 'flagged' : 'flag'; ?></span>
+		<div class="comment-body comment-byline comment-byline-footer">-->
+			
+				<!-- • <span class="flag <?php echo $comment->approved == -1 ? 'flagged' : NULL; ?>" data-attr-id="<?php echo $comment->id; ?>"><?php echo $comment->approved == -1 ? 'flagged' : 'flag'; ?></span>
 					<span class="likes-container" style="position:absolute;padding-left:120px">		
 					<div style="float:left;position:absolute;right:0px" class="likes <?php echo Yii::app()->user->isGuest ?: (Users::model()->findByPk(Yii::app()->user->id)->likesPost($content->id) ? 'liked' : NULL); ?>">     
 					    <div  style="position:absolute;right:60px;width:50px;top:-5px">
@@ -73,7 +119,7 @@
 					</span>			
 			
 		</div>
-	</div>
+	</div>-->
 		<?php $model = new Comments(); ?>
 		<?php $comment->parent_id = $comment->parent_id; ?>
 		<?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
@@ -99,6 +145,10 @@
 		<?php $this->endWidget(); ?>
 
 	<div class="clearfix"></div>
+
+
+    <div style="clear:both;"><br /></div>
+	
 
 
 <script type="text/javascript">
@@ -135,7 +185,7 @@
 	        if ($("#textbox-<?php echo $comment->id; ?>").text() == "")
 	            return;
 
-	        $.post("/godwelling/comment/comment", 
+	        $.post("/comment/comment", 
 	        	{ 
 	        		"Comments" : 
 	        		{ 
@@ -166,7 +216,7 @@ function testClick(idVal){
 	var idData = id[2];
 	//alert(idData);
 
-	$.post("/godwelling/comment/like/id/"+idData, function(data, textStatus, jqXHR) {
+	$.post("/comment/like/id/"+idData, function(data, textStatus, jqXHR) {
 	//alert(data.status);
 		if (data.status == undefined)
 			window.location = "<?php echo $this->createUrl('/login'); ?>"
@@ -202,7 +252,7 @@ function dislike(idVal){
 	var idData = id[2];
 	//alert(idData);
 
-	$.post("/godwelling/comment/dislike/id/"+idData, function(data, textStatus, jqXHR) {
+	$.post("/comment/dislike/id/"+idData, function(data, textStatus, jqXHR) {
 	//alert(data.status);
 		if (data.status == undefined)
 			window.location = "<?php echo $this->createUrl('/login'); ?>"

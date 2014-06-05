@@ -298,7 +298,7 @@ class SiteController extends CiiController
 							Yii::app()->user->setFlash('reset', 'Your password has been reset, and you may now login with your new password');
 							
 							// Redirect to the login page
-							$this->redirect('/godwelling/login');
+							$this->redirect('/login');
 						}
 	
 						Yii::app()->user->setFlash('reset-error', 'The password you provided must be at least 8 characters.');
@@ -401,6 +401,7 @@ class SiteController extends CiiController
 			
 			if ($model->validate())
 			{
+
 				if (!function_exists('password_hash'))
 					require_once YiiBase::getPathOfAlias('ext.bcrypt.bcrypt').'.php';
 				
@@ -409,6 +410,8 @@ class SiteController extends CiiController
 				$cost = Cii::getBcryptCost();
 
 				$password = password_hash($hash, PASSWORD_BCRYPT, array('cost' => $cost));
+				
+
 
 				$user->attributes = array(
 					'email'=>Cii::get($_POST['RegisterForm'], 'email'),
@@ -416,6 +419,8 @@ class SiteController extends CiiController
 					'firstName'=> NULL,
 					'lastName'=> NULL,
 					'displayName'=>Cii::get($_POST['RegisterForm'], 'displayName'),
+					'expert'=> NULL,
+					'profession'=> NULL,
 					'user_role'=>1,
 					'status'=>0
 				);
@@ -434,7 +439,7 @@ class SiteController extends CiiController
 						// Send the registration email
 						$this->sendEmail($user, 'Activate Your Account', '//email/register', array('user' => $user, 'hash' => $hash), true, true);
 					
-						$this->redirect('/godwelling/register-success');
+						$this->redirect('/register-success');
 						return;
 					}
 				}

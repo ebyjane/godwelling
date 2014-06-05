@@ -84,7 +84,7 @@
 	        if ($("#textbox-<?php echo $comment->id; ?>").text() == "")
 	            return;
 
-	        $.post("/godwelling/comment/comment", 
+	        $.post("/comment/comment", 
 	        	{ 
 	        		"Comments" : 
 	        		{ 

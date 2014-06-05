@@ -70,7 +70,7 @@
 	    	            <?php $config = Yii::app()->getModules(false); ?>
 	    	            <?php if (count(Cii::get($config, 'hybridauth', array())) >= 1): ?>
 	    	            <div class="clearfix" style="border-bottom: 1px solid #aaa; margin: 15px;"></div>
-							<span class="login-form-links">Or register with one of these social networks</span>
+							<!--<span class="login-form-links">Or register with one of these social networks</span>-->
 	    	        	<?php endif; ?>
 	    	        	<div class="clearfix"></div>
 	    	        	<div class="social-buttons">
