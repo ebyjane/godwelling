@@ -1,4 +1,4 @@
-<div class="comment comment-<?php echo $comment->id; ?>" data-attr-id="<?php echo $comment->id; ?>" style="margin-left: <?php echo $depth*4 * 10; ?>px; display:none;">
+<div class="comment comment-<?php echo $comment->id; ?>" data-attr-id="<?php echo $comment->id; ?>" style="margin-bottom:10px;margin-left: <?php echo $depth*4 * 10; ?>px; display:none;">
 	<?php /*echo CHtml::image($comment->author->gravatarImage(30), NULL, array('class' => 'rounded-image avatar'));*/ ?>
 	
 	<?php //echo $content->author->id; 
@@ -19,7 +19,8 @@
 	?>
 
 <div class="comment-wrap" style="margin:0px">	
-<div class="comment-text" style="float:left">
+<div class="comment-text" style="float:left;color:#30D1E3;">
+							<span style="float:left;margin-right:20px;">
 							<?php
 							if(count($image_data)>0){
 								echo CHtml::link(CHtml::image("/uploads/".$image_data->value, NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/uploads/".$image_data->value, 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
@@ -27,24 +28,28 @@
 								echo CHtml::link(CHtml::image("/uploads/images.jpg", NULL, array('class'=> 'thumb', 'style' => 'width:30px;float:left',  'href' => "/uploads/images.jpg", 'title' => $userDetails->displayName)), $this->createUrl("/profile/{$id}/"));
 							}
 							?>
+                            </span>
+                            <span class="main-author-name" style="color:#30D1E3;">
 										<?php 
 			//print_r($comment);
 			echo CHtml::encode($comment->author->name); ?>
+            </span>
+            
 			<?php if ($comment->parent_id != 0): ?>
-				<span class="icon-share-alt"></span> <?php echo CHtml::encode($comment->parent->author->name); ?> •
+				<span class="icon-share-alt" style="color:#30D1E3;"></span> <?php echo CHtml::encode($comment->parent->author->name); ?> •
 			<?php else: ?>
-			 <span class="icon-share-alt"></span> <?php echo CHtml::encode($comment->author->displayName); ?>•
+			 <span class="icon-share-alt" style="color:#30D1E3;"></span> <?php echo CHtml::encode($comment->author->displayName); ?>•
 			<?php endif; ?>
 
 								
-                                	<small> <time class="timeago" datetime="<?php echo date(DATE_ISO8601, strtotime($comment->created)); ?>">
+                                	<small> <time style="color:#30D1E3;" class="timeago" datetime="<?php echo date(DATE_ISO8601, strtotime($comment->created)); ?>">
 									<?php echo Cii::formatDate($comment->created); ?>
 								</time></small></h4>
-                                	<p style="margin-left:50px;"><?php echo $comment->comment; ?></p>
+                                	<p style="margin-left:50px;color:#000;"><?php echo $comment->comment; ?></p>
 		
                                     <ul class="comment-action group" style="margin-left:30px">
 									<li style="width:30px">&nbsp;</li>
-				  <li><span style="cursor:pointer" class="flag <?php echo $comment->approved == -1 ? 'flagged' : NULL; ?>" data-attr-id="<?php echo $comment->id; ?>"><?php echo $comment->approved == -1 ? 'flagged' : 'flag'; ?></span></li>
+				  <li><span style="cursor:pointer;color:#777;" class="flag <?php echo $comment->approved == -1 ? 'flagged' : NULL; ?>" data-attr-id="<?php echo $comment->id; ?>"><?php echo $comment->approved == -1 ? 'flagged' : 'flag'; ?></span></li>
                                     	<!--<li><a href="#" class="reply">Reply</a></li>
                                         <li><a href="#" class="flag">Flag</a></li>-->
                                         <li><a onclick=testClick("like-count-<?php echo $comment->id; ?>"); style="cursor:pointer"   id="upvote" title="Like this post and discussion" href="#" class="like">Like</a></li>
@@ -286,5 +291,8 @@ main #sharebox #b, [id*="sharebox-"] [id*="b-"] {
 }
 main #sharebox, main [id*="sharebox-"] {
     border: 1px solid #DDDDDD;
+}
+.sharebox-submit{
+	margin-top:5px;	
 }
 </style>

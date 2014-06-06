@@ -1,10 +1,13 @@
 <?php 
 $this->beginContent('//layouts/main'); ?>
-                	<div class="content-wrap">
+                	
 					 <?php echo $content; ?>                    
-					</div>
+					
 	                
-                <div class="grid-4 sidebar">
+                
+            </div>
+            
+            <div class="grid-4 sidebar">
                     
                    <?php 
 					if(!Yii::app()->user->isGuest){
@@ -17,12 +20,13 @@ $this->beginContent('//layouts/main'); ?>
                     </div>
                 </div>
                 <!-- sidebar ends -->
-            </div>
+     
         </div>
         </div>
 <?php $this->endContent(); ?>
 
-
+			
+	
 
 		<?php 
 						$comments = Comments::model()->findAllByAttributes(array('content_id' => $content->id));
@@ -52,15 +56,22 @@ $this->beginContent('//layouts/main'); ?>
 		<div class="comment-body">
 		    			    <p><p><?php echo $val['comment']; ?><p></p>
 					</div>
-	</div>		
+ 
+	</div>	
+    
+    
+        	
 <?php
 		}
 		}
 		?>
-
-                <!-- sidebar ends -->
+        
+        
+                
+     
             </div>
-        </div>	
+        </div>
+			
 
 </div>
 
